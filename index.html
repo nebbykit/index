@@ -4,225 +4,310 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Zano Index</title>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet" />
+
 <style>
   :root {
-    /* Light theme colors - Blue scheme */
-    --bg-color: #A0C6FC; /* Light blue background */
-    --text-color: #003366; /* Dark blue text */
-    --shadow-color: rgba(0, 0, 50, 0.1);
-    --hover-shadow-color: rgba(0, 0, 50, 0.2);
-    --filter-tag-bg: #b2ebf2; /* Light blue tags */
-    --filter-tag-hover: #81d4fa;
-    --figure-bg: #A0C6FC; /* White for figures */
-    --figure-shadow: rgba(0, 0, 50, 0.1);
-    --caption-color: #005577; /* Darker blue captions */
-    --blue-color: #3399ff; /* Blue tone for buttons/links */
-    --primary-color: #0288d1; /* Bright blue */
-    --secondary-color: #81d4fa; /* Light blue accent */
-  }
-  body.dark-mode {
-    --bg-color: #000033; /* Darker blue background */
-    --text-color: #cceeff; /* Light blue text */
-    --shadow-color: rgba(0, 0, 100, 0.6);
-    --hover-shadow-color: rgba(0, 0, 100, 0.8);
-    --filter-tag-bg: #003366; /* Dark blue tags */
-    --filter-tag-hover: #005577;
-    --figure-bg: #000033; /* Very dark blue for figures */
-    --figure-shadow: rgba(0, 0, 50, 0.7);
-    --caption-color: #66ccff; /* Light blue captions */
-    --blue-color: #66ccff; /* Lighter blue for buttons/links in dark mode */
-    --primary-color: #01579b; /* Dark blue */
-    --secondary-color: #4fc3f7; /* Lighter blue accent in dark mode */
+    /* Light mode: white and navy */
+    --bg-color: #ffffff;
+    --text-color: #14213d;
+    --surface-color: #ffffff;
+    --accent-color: #14213d;
+    --shadow-color: rgba(20, 33, 61, 0.15);
   }
 
-  *:focus { outline: none; box-shadow: none; }
-  * {
-    box-sizing: border-box; margin: 0; padding: 0; cursor: default;
+  body.dark-mode {
+    /* Dark mode: navy and white */
+    --bg-color: #14213d;
+    --text-color: #ffffff;
+    --surface-color: #14213d;
+    --accent-color: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.3);
   }
+
+  *:focus {
+    outline: none;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
   body {
-    font-family: 'Ubuntu', Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    position: relative;
     background: var(--bg-color);
     color: var(--text-color);
-    display: flex; min-height: 100vh;
-    position: relative; /* For stacking context */
+    font-family: 'Ubuntu', Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
   }
 
-  /* Globe background canvas styling */
+  button,
+  a,
+  figure,
+  input,
+  .stats {
+    cursor: pointer;
+  }
+
   #globeBackground {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -1; /* Behind all content */
-    opacity: 0.2; /* semi-transparent for background effect */
-    pointer-events: none; /* Allows clicks through */
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.15;
+    pointer-events: none;
   }
 
   #mainContent {
+    width: 100%;
+    min-height: 100vh;
     opacity: 0;
     transition: opacity 0.5s ease;
-    width: 100%; height: 100%;
   }
 
-  /* Sidebar styles */
   #sidebar {
-    position: fixed; /* fixed for persistent sidebar */
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
     width: 160px;
-    background: var(--figure-bg);
-    box-shadow: 2px 0 8px var(--shadow-color);
+    height: 100%;
     padding: 20px 15px;
-    display: flex; flex-direction: column; align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     overflow-y: auto;
+    background: var(--surface-color);
+    color: var(--text-color);
+    box-shadow: 2px 0 8px var(--shadow-color);
     z-index: 1000;
   }
+
   #sidebar::-webkit-scrollbar {
     width: 6px;
   }
+
   #sidebar::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.2);
+    background: var(--text-color);
     border-radius: 3px;
   }
 
-  /* Logo bottom container */
+  #sidebar input[type="search"] {
+    width: 100%;
+    margin: 15px 0 20px;
+    padding: 10px 15px;
+    border: 1px solid var(--text-color);
+    border-radius: 20px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Ubuntu', Arial, sans-serif;
+    font-size: 14px;
+  }
+
+  #sidebar input[type="search"]::placeholder {
+    color: var(--text-color);
+    opacity: 0.7;
+  }
+
+  #sidebar input[type="search"]:focus {
+    box-shadow: 0 0 0 2px var(--text-color);
+  }
+
+  #side-toggle {
+    position: fixed;
+    top: 80%;
+    left: 0;
+    z-index: 1300;
+    padding: 10px 15px;
+    transform: translateY(-50%);
+    border: none;
+    border-radius: 0 4px 4px 0;
+    background: var(--accent-color);
+    color: var(--bg-color);
+    font-family: 'Ubuntu', Arial, sans-serif;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  #side-toggle:hover,
+  #backToTop:hover,
+  .category-btn:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
+  }
+
   #sidebar-bottom-logo {
-    position: absolute; /* absolute within fixed sidebar */
+    position: absolute;
     bottom: 20px;
     width: 100%;
     text-align: center;
   }
 
-  /* Side toggle button positioned further down on the left side */
-  #side-toggle {
-    position: fixed;
-    top: 80%; /* moved further down */
-    left: 0;
-    transform: translateY(-50%);
-    background-color: var(--primary-color);
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-    z-index: 1300;
-    font-family: 'Ubuntu', sans-serif;
-    font-weight: bold;
-    border: none;
-    transition: background-color 0.3s;
-  }
-  #side-toggle:hover {
-    background-color: var(--secondary-color);
+  #sidebar-bottom-logo img {
+    max-width: 50px;
+    height: auto;
+    border-radius: 8px;
   }
 
-  /* Search input styles */
-  #sidebar input[type="search"] {
-    margin-top: 15px;
-    margin-bottom: 20px;
-    width: 100%; padding: 10px 15px; border-radius: 20px;
-    border: 1px solid #555; font-family: 'Ubuntu'; font-size: 14px; background: transparent; color: var(--text-color); transition: box-shadow 0.3s, border-color 0.3s;
-  }
-  #sidebar input[type="search"]:focus {
-    box-shadow: 0 0 8px var(--primary-color);
-    border-color: var(--primary-color);
+  #sidebar-bottom-logo p {
+    margin-top: 8px;
+    color: var(--text-color);
+    font-size: 0.75em;
+    line-height: 1.2;
   }
 
-  /* Category buttons styling */
-  .category-btn {
-    padding: 10px;
+  #sidebar-bottom-logo a {
+    color: var(--text-color);
+    text-decoration: underline;
+  }
+
+  #categoriesContainer {
     width: 100%;
-    border: none;
+  }
+
+  .category-btn {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 10px;
+    border: 1px solid var(--text-color);
     border-radius: 12px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: #fff;
-    font-family: 'Ubuntu';
+    background: var(--accent-color);
+    color: var(--bg-color);
+    font-family: 'Ubuntu', Arial, sans-serif;
     font-weight: bold;
     font-size: 0.9em;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s;
+    transition: transform 0.3s, background-color 0.3s, color 0.3s;
   }
+
   .category-btn:hover {
-    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
     transform: translateY(-2px);
   }
 
-  /* Main content styles */
   #content {
+    flex: 1;
     margin-left: 160px;
     padding: 30px 20px;
-    flex: 1;
-    transition: margin-left 0.3s;
-  }
-  @media(max-width: 768px) {
-    #sidebar {
-      width: 140px;
-      padding: 15px 10px;
-    }
-    #content {
-      margin-left: 140px;
-    }
   }
 
-  /* Figures grid styles */
   #figures {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
   }
+
   figure {
-    background: var(--figure-bg); border-radius: 12px; box-shadow: 0 4px 8px var(--figure-shadow);
-    padding: 15px; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: all 0.3s; position: relative;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid var(--text-color);
+    border-radius: 12px;
+    background: var(--surface-color);
+    color: var(--text-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+    transition: transform 0.3s, box-shadow 0.3s;
   }
+
   figure:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 12px 20px var(--shadow-color);
   }
-  figure a { display: flex; flex-direction: column; align-items: center; }
+
+  figure a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   figure img {
-    width: 80px; height: 80px; object-fit: contain; border-radius: 8px; margin-bottom: 10px; transition: transform 0.3s;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    object-fit: contain;
+    transition: transform 0.3s;
   }
+
   figure img:hover {
     transform: scale(1.05);
   }
+
   figcaption {
-    font-family: 'Ubuntu', Arial, sans-serif;
-    font-size: 1.1em; margin-top: 8px; color: var(--caption-color);
+    margin-top: 8px;
+    color: var(--text-color);
+    font-size: 1.1em;
     text-align: center;
   }
+
   .stats {
-    margin-top: 6px; font-size: 0.85em; font-style: italic; color: var(--caption-color);
     display: none;
-    cursor: pointer;
+    margin-top: 6px;
+    color: var(--text-color);
+    font-size: 0.85em;
+    font-style: italic;
   }
+
   .show-stats .stats {
     display: block;
   }
 
-  /* Back to Top button styles */
+  .favorite-btn {
+    color: var(--text-color) !important;
+  }
+
   #backToTop {
-    position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-    background: var(--primary-color); color: #fff; border: none; border-radius: 50%;
-    font-size: 2em; font-weight: bold; display: flex; align-items: center; justify-content: center;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    z-index: 1200;
+    display: flex;
+    width: 60px;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--text-color);
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: var(--bg-color);
     box-shadow: 0 4px 8px var(--shadow-color);
-    cursor: pointer; transition: all 0.3s; z-index: 1200;
+    font-size: 2em;
+    font-weight: bold;
+    transition: opacity 0.3s, transform 0.3s, background-color 0.3s, color 0.3s;
   }
+
   #backToTop.hidden {
-    opacity: 0; pointer-events: none;
+    opacity: 0;
+    pointer-events: none;
   }
+
   #backToTop:hover {
-    background: var(--secondary-color);
     transform: scale(1.1);
   }
 
-  /* Responsive truncation for mobile favorites list */
   #favoritesList div span {
     display: inline-block;
     max-width: calc(100% - 40px);
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  @media(max-width: 768px) {
+
+  @media (max-width: 768px) {
+    #sidebar {
+      width: 140px;
+      padding: 15px 10px;
+    }
+
+    #content {
+      margin-left: 140px;
+    }
+
     #favoritesList div span {
       max-width: calc(100% - 40px);
       font-size: 0.75em;
@@ -231,84 +316,89 @@
 </style>
 </head>
 
-<!-- GoatCounter Script -->
-<script data-goatcounter="https://zanoindex.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script
+  data-goatcounter="https://zanoindex.goatcounter.com/count"
+  async
+  src="//gc.zgo.at/count.js">
+</script>
 
 <body>
-
-<!-- Globe background canvas -->
 <canvas id="globeBackground"></canvas>
 
-<!-- Main content -->
-<div id="mainContent" style="opacity:0; pointer-events:none;"> 
+<div id="mainContent" style="opacity: 0; pointer-events: none;">
+  <button id="side-toggle" title="Toggle Light/Dark Mode" aria-label="Toggle light and dark mode">☀️</button>
 
-<!-- Side toggle tab further down -->
-<button id="side-toggle" title="Toggle Light/Dark Mode">🌊</button>
+  <aside id="sidebar">
+    <input type="search" id="sidebar-search" placeholder="Search..." aria-label="Search" />
+    <h2>Favorites</h2>
+    <div id="favoritesList"></div>
 
-<!-- Sidebar -->
-<div id="sidebar">
-  <input type="search" id="sidebar-search" placeholder="Search..." />
-  <h2>Favorites</h2>
-  <div id="favoritesList"></div>
-  <div id="categoriesContainer" style="display: none;">
-    <button class="category-btn" data-filter="All"><span>All</span></button>
-    <button class="category-btn" data-filter="Water and Hygiene"><span>Water & Hygiene</span></button>
-    <button class="category-btn" data-filter="Hunger"><span>Hunger</span></button>
-    <button class="category-btn" data-filter="Homelessness"><span>Homelessness</span></button>
-    <button class="category-btn" data-filter="Environment"><span>Environment</span></button>
-    <button class="category-btn" data-filter="Animals"><span>Animals</span></button>
-  </div>
-  <!-- Fixed bottom logo container with social media handle -->
-  <div id="sidebar-bottom-logo" style="position: absolute; bottom: 20px; width: 100%; text-align: center;">
-    <img src="https://i.postimg.cc/NK7dNgRS/nebbykit.png" alt="Created by nebbykit" style="max-width:50px; height:auto; border-radius:8px; cursor:pointer;">
-    <p style="margin-top:8px; font-size:0.75em; color: var(--caption-color); line-height: 1.2;">
-      <a href="https://bsky.app/profile/nebbykit.bsky.social" target="_blank" style="color: var(--primary-color); text-decoration:underline;">@nebbykit.bsky.social</a>
-    </p>
-  </div>
+    <div id="categoriesContainer" style="display: none;">
+      <button class="category-btn" data-filter="All"><span>All</span></button>
+      <button class="category-btn" data-filter="Water and Hygiene"><span>Water &amp; Hygiene</span></button>
+      <button class="category-btn" data-filter="Hunger"><span>Hunger</span></button>
+      <button class="category-btn" data-filter="Homelessness"><span>Homelessness</span></button>
+      <button class="category-btn" data-filter="Environment"><span>Environment</span></button>
+      <button class="category-btn" data-filter="Animals"><span>Animals</span></button>
+    </div>
+
+    <div id="sidebar-bottom-logo">
+      <img src="https://i.postimg.cc/NK7dNgRS/nebbykit.png" alt="Created by nebbykit" />
+      <p>
+        <a href="https://bsky.app/profile/nebbykit.bsky.social" target="_blank" rel="noopener noreferrer">
+          @nebbykit.bsky.social
+        </a>
+      </p>
+    </div>
+  </aside>
+
+  <main id="content">
+    <h1 id="main-title" style="display: none;">Zano Index</h1>
+    <div id="figures"></div>
+  </main>
+
+  <button id="backToTop" class="hidden" aria-label="Back to top">↑</button>
 </div>
 
-<!-- Main content -->
-<div id="content">
-  <h1 id="main-title" style="display:none;">Zano Index</h1>
-  <div id="figures"></div>
-</div>
-
-<!-- Back to Top -->
-<div id="backToTop">↑</div>
-
-</div> <!-- end mainContent -->
-
-<!-- Include Three.js Library -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
 <script>
-  // Initialize Three.js globe background
-  let scene, camera, renderer, sphereMesh;
+  let scene;
+  let camera;
+  let renderer;
+  let sphereMesh;
 
   function initGlobe() {
     const canvas = document.getElementById('globeBackground');
     const width = window.innerWidth;
     const height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
 
     scene = new THREE.Scene();
-
     camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.z = 2;
 
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true
+    });
+
     renderer.setSize(width, height);
     renderer.setPixelRatio(window.devicePixelRatio);
 
     const geometry = new THREE.SphereGeometry(0.9, 32, 32);
-    const material = new THREE.MeshBasicMaterial({ color: 0x8888ff, wireframe: true });
+    const material = new THREE.MeshBasicMaterial({
+      color: 0x14213d,
+      wireframe: true
+    });
+
     sphereMesh = new THREE.Mesh(geometry, material);
     scene.add(sphereMesh);
 
     window.addEventListener('resize', () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
+
       renderer.setSize(w, h);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
@@ -319,248 +409,258 @@
 
   function animate() {
     requestAnimationFrame(animate);
-    sphereMesh.rotation.y += 0.001;
-    renderer.render(scene, camera);
+
+    if (sphereMesh) {
+      sphereMesh.rotation.y += 0.001;
+      renderer.render(scene, camera);
+    }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    initGlobe();
-  });
-</script>
+  const figures = [
+    {
+      href: 'https://www.zanobay.com/',
+      src: 'https://i.postimg.cc/YGzPvwCR/zanobay.png',
+      caption: 'Zano Bay',
+      categoryLabel: 'NA',
+      stats: 'Buy and sell with privacy and security. End-to-end encrypted transactions on the Zano network.'
+    },
+    {
+      href: 'https://obscura.art/',
+      src: 'https://i.postimg.cc/fk0ZRVcJ/logo.png',
+      caption: 'obscura',
+      categoryLabel: 'NA',
+      stats: 'Obscura lets you mint and manage NFTs on the private ZANO blockchain.'
+    }
+  ];
 
-<script>
-const figures = [
-  {
-    href: "https://www.zanobay.com/",
-    src: "https://i.postimg.cc/YGzPvwCR/zanobay.png",
-    caption: "Zano Bay",
-    categoryLabel: "NA",
-    stats: "Buy and sell with privacy and security. End-to-end encrypted transactions on the Zano network."
-  },
-  {
-    href: "https://obscura.art/",
-    src: "https://i.postimg.cc/fk0ZRVcJ/logo.png",
-    caption: "obscura",
-    categoryLabel: "NA",
-    stats: "Obscura lets you mint and manage NFTs on the private ZANO blockchain."
-  },
-];
+  let favorites = [];
+  const backBtn = document.getElementById('backToTop');
+  let hideTimeout = null;
 
-let favorites = [];
-
-function shuffleArray(array) {
-  for (let i=array.length-1; i>0; i--) {
-    const j = Math.floor(Math.random() * (i+1));
-    [array[i], array[j]] = [array[j], array[i]];
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
   }
-}
 
-function loadFavorites() {
-  const favs = localStorage.getItem('favorites');
-  favorites = favs ? JSON.parse(favs) : [];
-}
-
-function saveFavorites() {
-  localStorage.setItem('favorites', JSON.stringify(favorites));
-}
-
-function updateFavoritesList() {
-  const favsContainer = document.getElementById('favoritesList');
-  favsContainer.innerHTML = '';
-  if (favorites.length === 0) {
-    favsContainer.innerHTML = '<p style="font-size:0.75em;">No favorites yet.</p>';
-    return;
+  function loadFavorites() {
+    try {
+      const saved = localStorage.getItem('favorites');
+      favorites = saved ? JSON.parse(saved) : [];
+      if (!Array.isArray(favorites)) favorites = [];
+    } catch {
+      favorites = [];
+    }
   }
-  favorites.forEach(index => {
-    const item = figures[index];
-    const favItem = document.createElement('div');
-    favItem.style.display = 'flex'; 
-    favItem.style.alignItems = 'center'; 
-    favItem.style.justifyContent = 'space-between'; 
-    favItem.style.marginBottom = '4px';
-    favItem.style.position = 'relative';
 
-    favItem.innerHTML = `
-      <span style="cursor:pointer; max-width: calc(100% - 24px); display:inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" onclick="window.open('${item.href}', '_blank')">${item.caption}</span>
-      <button style="background:none; border:none; cursor:pointer; font-size:1.2em; padding:2px; outline:none; color: var(--primary-color);" aria-label="${favorites.includes(index) ? 'Remove from favorites' : 'Add to favorites'}" data-index="${index}" class="favorite-btn">${favorites.includes(index) ? '★' : '☆'}</button>
-    `;
-    favsContainer.appendChild(favItem);
-  });
-  document.querySelectorAll('.favorite-btn').forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      const index = parseInt(btn.dataset.index);
-      toggleFavorite(index);
-    };
-  });
-}
+  function saveFavorites() {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }
 
-function removeFavorite(index) {
-  const favIdx = favorites.indexOf(index);
-  if (favIdx !== -1) {
-    favorites.splice(favIdx, 1);
+  function updateFavoritesList() {
+    const container = document.getElementById('favoritesList');
+    container.innerHTML = '';
+
+    if (favorites.length === 0) {
+      const emptyMessage = document.createElement('p');
+      emptyMessage.style.fontSize = '0.75em';
+      emptyMessage.textContent = 'No favorites yet.';
+      container.appendChild(emptyMessage);
+      return;
+    }
+
+    favorites.forEach(index => {
+      const item = figures[index];
+      if (!item) return;
+
+      const row = document.createElement('div');
+      row.style.display = 'flex';
+      row.style.alignItems = 'center';
+      row.style.justifyContent = 'space-between';
+      row.style.marginBottom = '4px';
+
+      const link = document.createElement('span');
+      link.textContent = item.caption;
+      link.title = item.caption;
+      link.addEventListener('click', () => window.open(item.href, '_blank', 'noopener'));
+
+      const button = document.createElement('button');
+      button.className = 'favorite-btn';
+      button.type = 'button';
+      button.textContent = '★';
+      button.setAttribute('aria-label', 'Remove from favorites');
+      button.style.background = 'none';
+      button.style.border = 'none';
+      button.style.fontSize = '1.2em';
+      button.dataset.index = index;
+
+      row.append(link, button);
+      container.appendChild(row);
+    });
+  }
+
+  function toggleFavorite(index) {
+    const favoriteIndex = favorites.indexOf(index);
+
+    if (favoriteIndex === -1) {
+      if (favorites.length >= 7) {
+        alert('You can only have up to 7 favorites.');
+        return;
+      }
+      favorites.push(index);
+    } else {
+      favorites.splice(favoriteIndex, 1);
+    }
+
     saveFavorites();
     updateFavoritesList();
     populateFigures();
   }
-}
 
-function toggleFavorite(index) {
-  const favIdx = favorites.indexOf(index);
-  if (favIdx === -1) {
-    if (favorites.length >= 7) {
-      alert("You can only have up to 7 favorites.");
-      return;
-    }
-    favorites.push(index);
-  } else {
-    favorites.splice(favIdx, 1);
-  }
-  saveFavorites();
-  updateFavoritesList();
-  populateFigures();
-}
+  function populateFigures() {
+    const container = document.getElementById('figures');
+    container.innerHTML = '';
 
-function populateFigures() {
-  const container = document.getElementById('figures');
-  container.innerHTML = '';
-  figures.forEach((item, index) => {
-    const figure = document.createElement('figure');
-    figure.setAttribute('data-category', item.categoryLabel);
-    figure.setAttribute('data-index', index);
-    figure.addEventListener('click', () => {
-      figure.classList.toggle('show-stats');
+    figures.forEach((item, index) => {
+      const figure = document.createElement('figure');
+      figure.dataset.category = item.categoryLabel;
+      figure.dataset.index = index;
+
+      figure.addEventListener('click', () => {
+        figure.classList.toggle('show-stats');
+      });
+
+      const favoriteButton = document.createElement('button');
+      favoriteButton.className = 'favorite-btn';
+      favoriteButton.type = 'button';
+      favoriteButton.dataset.index = index;
+      favoriteButton.textContent = favorites.includes(index) ? '★' : '☆';
+      favoriteButton.setAttribute(
+        'aria-label',
+        favorites.includes(index) ? 'Remove from favorites' : 'Add to favorites'
+      );
+      favoriteButton.style.position = 'absolute';
+      favoriteButton.style.top = '8px';
+      favoriteButton.style.right = '8px';
+      favoriteButton.style.background = 'none';
+      favoriteButton.style.border = 'none';
+      favoriteButton.style.fontSize = '1.2em';
+      favoriteButton.style.padding = '2px';
+
+      const link = document.createElement('a');
+      link.href = item.href;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+
+      const image = document.createElement('img');
+      image.src = item.src;
+      image.alt = item.caption;
+      link.appendChild(image);
+
+      const caption = document.createElement('figcaption');
+      caption.textContent = item.caption;
+
+      const stats = document.createElement('div');
+      stats.className = 'stats';
+      stats.textContent = item.stats;
+
+      const details = document.createElement('div');
+      details.className = 'fig-details';
+      details.append(caption, stats);
+
+      figure.append(favoriteButton, link, details);
+      container.appendChild(figure);
     });
-    const isFavorited = favorites.includes(index);
-    const favoriteIcon = `<button class="favorite-btn" aria-label="${isFavorited ? 'Remove from favorites' : 'Add to favorites'}" data-index="${index}" style="position:absolute; top:8px; right:8px; background:none; border:none; cursor:pointer; font-size:1.2em; padding:2px; transition: color 0.2s; outline:none; color: var(--primary-color);">${isFavorited ? '★' : '☆'}</button>`;
-    let figureHTML = `
-      ${favoriteIcon}
-      <a href="${item.href}" target="_blank" rel="noopener noreferrer">
-        <img src="${item.src}">
-      </a>
-      <div class="fig-details">
-        <div class="fig-text">
-          <figcaption>${item.caption}</figcaption>
-          <div class="stats">${item.stats}</div>
-        </div>
-      </div>
-    `;
-    figure.innerHTML = figureHTML;
-    container.appendChild(figure);
-  });
-  document.querySelectorAll('.favorite-btn').forEach(btn => {
-    btn.onclick = (e) => {
-      e.stopPropagation();
-      const index = parseInt(btn.dataset.index);
-      toggleFavorite(index);
-    };
-  });
-}
+  }
 
-function filterFigures(type, value) {
-  document.querySelectorAll('#figures figure').forEach(fig => {
-    const category = fig.dataset.category.toLowerCase();
-    const captionText = fig.querySelector('figcaption').innerText.toLowerCase();
-    const statsText = fig.querySelector('.stats').innerText.toLowerCase();
-    if (type === 'category') {
-      if (value.toLowerCase() === 'all' || category === value.toLowerCase()) {
-        fig.style.display = '';
-      } else {
-        fig.style.display = 'none';
+  function filterFigures(type, value) {
+    const searchValue = value.toLowerCase();
+
+    document.querySelectorAll('#figures figure').forEach(figure => {
+      const category = figure.dataset.category.toLowerCase();
+      const caption = figure.querySelector('figcaption').textContent.toLowerCase();
+      const stats = figure.querySelector('.stats').textContent.toLowerCase();
+
+      if (type === 'category') {
+        figure.style.display =
+          searchValue === 'all' || category === searchValue ? '' : 'none';
+      } else if (type === 'search') {
+        figure.style.display =
+          !searchValue ||
+          category.includes(searchValue) ||
+          caption.includes(searchValue) ||
+          stats.includes(searchValue)
+            ? ''
+            : 'none';
       }
-    } else if (type === 'search') {
-      if (
-        value === '' ||
-        category.includes(value) ||
-        captionText.toLowerCase().includes(value) ||
-        statsText.toLowerCase().includes(value)
-      ) {
-        fig.style.display = '';
-      } else {
-        fig.style.display = 'none';
-      }
-    }
+    });
+  }
+
+  function updateThemeToggle() {
+    const toggle = document.getElementById('side-toggle');
+    const isDark = document.body.classList.contains('dark-mode');
+
+    toggle.textContent = isDark ? '☀️' : '🌙';
+    toggle.setAttribute(
+      'aria-label',
+      isDark ? 'Switch to light mode' : 'Switch to dark mode'
+    );
+  }
+
+  window.addEventListener('load', () => {
+    initGlobe();
+
+    const mainContent = document.getElementById('mainContent');
+    mainContent.style.opacity = '1';
+    mainContent.style.pointerEvents = 'auto';
+
+    document.body.classList.add('dark-mode');
+    updateThemeToggle();
+
+    document.getElementById('side-toggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      updateThemeToggle();
+    });
+
+    loadFavorites();
+    shuffleArray(figures);
+    populateFigures();
+    filterFigures('category', 'All');
+    updateFavoritesList();
+
+    document.getElementById('sidebar-search').addEventListener('input', event => {
+      filterFigures('search', event.target.value);
+    });
+
+    document.addEventListener('click', event => {
+      const button = event.target.closest('.favorite-btn');
+      if (!button) return;
+
+      event.stopPropagation();
+      toggleFavorite(Number(button.dataset.index));
+    });
+
+    document.querySelectorAll('.category-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        filterFigures('category', button.dataset.filter);
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      backBtn.classList.remove('hidden');
+
+      if (hideTimeout) clearTimeout(hideTimeout);
+
+      hideTimeout = setTimeout(() => {
+        backBtn.classList.add('hidden');
+      }, 2000);
+    });
+
+    backBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   });
-}
-
-const backBtn = document.getElementById('backToTop');
-backBtn.classList.add('hidden');
-let hideTimeout = null;
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Your existing code...
-});
-</script>
-
-<script>
-window.onload = () => {
-  // existing onload code...
-  const mainContent = document.getElementById('mainContent');
-  mainContent.style.opacity = '1';
-  mainContent.style.pointerEvents = 'auto';
-
-  const sideToggle = document.getElementById('side-toggle');
-  // Set initial theme to dark mode
-  document.body.classList.add('dark-mode');
-  sideToggle.innerText = '🌊'; // Wave icon for dark theme
-
-  loadFavorites();
-
-  sideToggle.onclick = () => {
-    document.body.classList.toggle('dark-mode');
-    if (document.body.classList.contains('dark-mode')) {
-      sideToggle.innerText = '🌊'; // Wave icon for dark
-    } else {
-      sideToggle.innerText = '☀️'; // Sun icon for light
-    }
-  };
-
-  shuffleArray(figures);
-  populateFigures();
-  filterFigures('category', 'All');
-  updateFavoritesList();
-
-  document.getElementById('sidebar-search').addEventListener('input', e => {
-    filterFigures('search', e.target.value.toLowerCase());
-  });
-  document.getElementById('sidebar-search').addEventListener('focus', () => {
-    document.getElementById('sidebar-search').style.boxShadow = '0 0 8px var(--primary-color)';
-  });
-  document.getElementById('sidebar-search').addEventListener('blur', () => {
-    document.getElementById('sidebar-search').style.boxShadow = '';
-  });
-
-  document.querySelectorAll('.category-btn').forEach(btn => {
-    btn.onclick = () => { filterFigures('category', btn.dataset.filter); };
-  });
-
-  window.addEventListener('scroll', () => {
-    backBtn.classList.remove('hidden');
-    if (hideTimeout) clearTimeout(hideTimeout);
-    hideTimeout = setTimeout(() => {
-      backBtn.classList.add('hidden');
-    }, 2000);
-  });
-  document.getElementById('backToTop').onclick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const aboutBtn = document.getElementById('aboutButton');
-  const aboutModal = document.getElementById('aboutModal');
-  const closeBtn = document.getElementById('closeAbout');
-
-  aboutBtn.onclick = () => {
-    aboutModal.style.display = 'flex';
-  };
-  closeBtn.onclick = () => {
-    aboutModal.style.display = 'none';
-  };
-  aboutModal.addEventListener('click', (e) => {
-    if (e.target === aboutModal) {
-      aboutModal.style.display = 'none';
-    }
-  });
-};
 </script>
 </body>
 </html>
