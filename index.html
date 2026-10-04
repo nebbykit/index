@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ZANO INDEX</title>
+<title>Zano Index</title>
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet" />
@@ -214,73 +214,6 @@
     transform: scale(1.1);
   }
 
-  /* About button styles */
-  #aboutButton {
-    margin-bottom: 10px;
-    padding: 8px 12px;
-    background-color: transparent;
-    border: 2px solid var(--primary-color);
-    border-radius: 6px;
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 0.9em;
-    color: var(--primary-color);
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  #aboutButton:hover {
-    background-color: var(--primary-color);
-    color: #fff;
-  }
-
-  /* About modal styling */
-  #aboutModal {
-    display: none;
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    align-items: center; justify-content: center; z-index: 1200;
-  }
-  #aboutModalContent {
-    background: var(--figure-bg);
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 600px;
-    width: 90%;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    font-family: 'Ubuntu', Arial, sans-serif;
-    color: var(--text-color);
-    text-align: center;
-  }
-  #aboutModalContent h2 {
-    margin-top: 0;
-    font-family: 'Pacifico', cursive;
-    font-size: 2em;
-    margin-bottom: 10px;
-    color: var(--primary-color);
-  }
-  #aboutModalContent img {
-    max-width: 200px;
-    display: block;
-    margin: 0 auto 15px auto;
-    border-radius: 50%;
-  }
-  #aboutModalContent p {
-    line-height: 1.5;
-    font-size: 1em;
-  }
-  #aboutModalContent a {
-    color: var(--primary-color);
-    text-decoration: underline;
-  }
-  #closeAbout {
-    margin-top: 15px;
-    padding: 8px 16px;
-    border: none;
-    background-color: var(--primary-color);
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
   /* Responsive truncation for mobile favorites list */
   #favoritesList div span {
     display: inline-block;
@@ -328,32 +261,21 @@
   </div>
   <!-- Fixed bottom logo container with social media handle -->
   <div id="sidebar-bottom-logo" style="position: absolute; bottom: 20px; width: 100%; text-align: center;">
-    <img src="https://i.postimg.cc/jWdg8V4d/anonymous.png" alt="Created by ERGO" style="max-width:50px; height:auto; border-radius:8px; cursor:pointer;">
+    <img src="https://i.postimg.cc/jWdg8V4d/anonymous.png" alt="Created by nebbykit" style="max-width:50px; height:auto; border-radius:8px; cursor:pointer;">
     <p style="margin-top:8px; font-size:0.75em; color: var(--caption-color); line-height: 1.2;">
-      <a href="https://bsky.app/profile/zanocash.bsky.social" target="_blank" style="color: var(--primary-color); text-decoration:underline;">@zanocash.bsky.social</a>
+      <a href="https://bsky.app/profile/nebbykit.bsky.social" target="_blank" style="color: var(--primary-color); text-decoration:underline;">@nebbykit.bsky.social</a>
     </p>
   </div>
 </div>
 
 <!-- Main content -->
 <div id="content">
-  <h1 id="main-title" style="display:none;">ZANO INDEX</h1>
+  <h1 id="main-title" style="display:none;">Zano Index</h1>
   <div id="figures"></div>
 </div>
 
 <!-- Back to Top -->
 <div id="backToTop">↑</div>
-
-<!-- About Modal -->
-<div id="aboutModal">
-  <div id="aboutModalContent">
-    <img src="https://i.postimg.cc/N90MzsdN/ZANO-INDEX.jpg" alt="ZANO Logo" />
-    <p>
-      Use ZANO cash with our fast and free index
-    </p>
-    <button id="closeAbout">Close</button>
-  </div>
-</div>
 
 </div> <!-- end mainContent -->
 
