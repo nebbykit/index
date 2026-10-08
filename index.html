@@ -1,703 +1,737 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>nebbyfi</title>
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nebbyfi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet" />
 
-<style>
-  :root {
-    --bg-color: #ffffff;
-    --text-color: #14213d;
-    --surface-color: #ffffff;
-    --accent-color: #14213d;
-    --shadow-color: rgba(20, 33, 61, 0.15);
-  }
+  <style>
+    :root {
+      --bg-color: #fff1e6;
+      --text-color: #542b3c;
+      --surface-color: #ffe0c2;
+      --accent-color: #c64f5d;
+      --shadow-color: rgba(84, 43, 60, 0.18);
+    }
 
-  body.dark-mode {
-    --bg-color: #14213d;
-    --text-color: #ffffff;
-    --surface-color: #14213d;
-    --accent-color: #ffffff;
-    --shadow-color: rgba(0, 0, 0, 0.3);
-  }
+    body.dark-mode {
+      --bg-color: #14213d;
+      --text-color: #ffffff;
+      --surface-color: #14213d;
+      --accent-color: #ffffff;
+      --shadow-color: rgba(0, 0, 0, 0.3);
+    }
 
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  *:focus {
-    outline: none;
-  }
+    *:focus {
+      outline: none;
+    }
 
-  body {
-    min-height: 100vh;
-    display: flex;
-    position: relative;
-    background: var(--bg-color);
-    color: var(--text-color);
-    font-family: 'Ubuntu', Arial, sans-serif;
-    transition: background-color 0.3s, color 0.3s;
-  }
+    body {
+      min-height: 100vh;
+      display: flex;
+      position: relative;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: "Ubuntu", Arial, sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-  button,
-  a,
-  figure,
-  input,
-  .stats {
-    cursor: pointer;
-  }
+    button,
+    a,
+    figure,
+    input,
+    .stats {
+      cursor: pointer;
+    }
 
-  #globeBackground {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.2;
-    pointer-events: none;
-  }
+    #globeBackground {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.2;
+      pointer-events: none;
+    }
 
-  #mainContent {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    min-height: 100vh;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
+    #mainContent {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 100vh;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
 
-  #sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    display: flex;
-    width: 160px;
-    height: 100%;
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
-    padding: 20px 15px;
-    background: var(--surface-color);
-    color: var(--text-color);
-    box-shadow: 2px 0 8px var(--shadow-color);
-  }
-
-  #sidebar::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  #sidebar::-webkit-scrollbar-thumb {
-    background: var(--text-color);
-    border-radius: 3px;
-  }
-
-  #sidebar input[type="search"] {
-    width: 100%;
-    margin: 15px 0 20px;
-    padding: 10px 15px;
-    border: 1px solid var(--text-color);
-    border-radius: 20px;
-    background: var(--bg-color);
-    color: var(--text-color);
-    font-family: 'Ubuntu', Arial, sans-serif;
-    font-size: 14px;
-  }
-
-  #sidebar input[type="search"]::placeholder {
-    color: var(--text-color);
-    opacity: 0.7;
-  }
-
-  #sidebar input[type="search"]:focus {
-    box-shadow: 0 0 0 2px var(--text-color);
-  }
-
-  #side-toggle {
-    position: fixed;
-    top: 80%;
-    left: 0;
-    z-index: 1300;
-    padding: 10px 15px;
-    transform: translateY(-50%);
-    border: 1px solid var(--text-color);
-    border-radius: 0 4px 4px 0;
-    background: var(--accent-color);
-    color: var(--bg-color);
-    font-family: 'Ubuntu', Arial, sans-serif;
-    font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
-  }
-
-  #side-toggle:hover,
-  #backToTop:hover,
-  .category-btn:hover {
-    background: var(--text-color);
-    color: var(--bg-color);
-  }
-
-  #sidebar-bottom-logo {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    text-align: center;
-  }
-
-  #sidebar-bottom-logo img {
-    max-width: 50px;
-    height: auto;
-    border-radius: 8px;
-  }
-
-  #sidebar-bottom-logo p {
-    margin-top: 8px;
-    color: var(--text-color);
-    font-size: 0.75em;
-    line-height: 1.2;
-  }
-
-  #sidebar-bottom-logo a {
-    color: var(--text-color);
-    text-decoration: underline;
-  }
-
-  #categoriesContainer {
-    width: 100%;
-  }
-
-  .category-btn {
-    width: 100%;
-    margin-bottom: 8px;
-    padding: 10px;
-    border: 1px solid var(--text-color);
-    border-radius: 12px;
-    background: var(--accent-color);
-    color: var(--bg-color);
-    font-family: 'Ubuntu', Arial, sans-serif;
-    font-size: 0.9em;
-    font-weight: bold;
-    transition: transform 0.3s, background-color 0.3s, color 0.3s;
-  }
-
-  .category-btn:hover {
-    transform: translateY(-2px);
-  }
-
-  #favoritesList {
-    width: 100%;
-    margin-top: 8px;
-  }
-
-  #favoritesList > p {
-    width: 100%;
-    text-align: center;
-    font-size: 0.75em;
-  }
-
-  .favorite-item {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: start;
-    gap: 6px;
-    width: 100%;
-    margin-bottom: 8px;
-  }
-
-  .favorite-name {
-    min-width: 0;
-    color: var(--text-color);
-    line-height: 1.3;
-    overflow-wrap: anywhere;
-    cursor: pointer;
-  }
-
-  .favorite-remove {
-    flex: none;
-    padding: 0 2px;
-    border: 0;
-    background: transparent;
-    color: var(--text-color);
-    font: inherit;
-    font-size: 1.1em;
-    line-height: 1.2;
-    cursor: pointer;
-  }
-
-  #content {
-    min-height: 100vh;
-    margin-left: 160px;
-    padding: 30px 20px;
-  }
-
-  #figures {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
-  }
-
-  figure {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 15px;
-    border: 1px solid var(--text-color);
-    border-radius: 12px;
-    background: var(--surface-color);
-    color: var(--text-color);
-    box-shadow: 0 4px 8px var(--shadow-color);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-
-  figure:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 20px var(--shadow-color);
-  }
-
-  figure a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  figure img {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    object-fit: contain;
-    transition: transform 0.3s;
-  }
-
-  figure img:hover {
-    transform: scale(1.05);
-  }
-
-  figcaption {
-    margin-top: 8px;
-    color: var(--text-color);
-    font-size: 1.1em;
-    text-align: center;
-  }
-
-  .stats {
-    display: none;
-    margin-top: 6px;
-    color: var(--text-color);
-    font-size: 0.85em;
-    font-style: italic;
-  }
-
-  .show-stats .stats {
-    display: block;
-  }
-
-  .figure-favorite {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    padding: 2px;
-    border: none;
-    background: transparent;
-    color: var(--text-color);
-    font-size: 1.2em;
-  }
-
-  #backToTop {
-    position: fixed;
-    right: 30px;
-    bottom: 30px;
-    z-index: 1200;
-    display: flex;
-    width: 60px;
-    height: 60px;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--text-color);
-    border-radius: 50%;
-    background: var(--accent-color);
-    color: var(--bg-color);
-    box-shadow: 0 4px 8px var(--shadow-color);
-    font-size: 2em;
-    font-weight: bold;
-    transition: opacity 0.3s, transform 0.3s, background-color 0.3s, color 0.3s;
-  }
-
-  #backToTop.hidden {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  #backToTop:hover {
-    transform: scale(1.1);
-  }
-
-  @media (max-width: 768px) {
     #sidebar {
-      width: 140px;
-      padding: 15px 10px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      display: flex;
+      width: 160px;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      padding: 20px 15px;
+      background: var(--surface-color);
+      color: var(--text-color);
+      box-shadow: 2px 0 8px var(--shadow-color);
+    }
+
+    #sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #sidebar::-webkit-scrollbar-thumb {
+      background: var(--text-color);
+      border-radius: 3px;
+    }
+
+    #sidebar input[type="search"] {
+      width: 100%;
+      margin: 15px 0 20px;
+      padding: 10px 15px;
+      border: 1px solid var(--text-color);
+      border-radius: 20px;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: "Ubuntu", Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    #sidebar input[type="search"]::placeholder {
+      color: var(--text-color);
+      opacity: 0.7;
+    }
+
+    #sidebar input[type="search"]:focus {
+      box-shadow: 0 0 0 2px var(--text-color);
+    }
+
+    #side-toggle {
+      position: fixed;
+      top: 80%;
+      left: 0;
+      z-index: 1300;
+      padding: 10px 15px;
+      transform: translateY(-50%);
+      border: 1px solid var(--text-color);
+      border-radius: 0 4px 4px 0;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      font-family: "Ubuntu", Arial, sans-serif;
+      font-weight: bold;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    #side-toggle:hover,
+    #backToTop:hover,
+    .category-btn:hover {
+      background: var(--text-color);
+      color: var(--bg-color);
+    }
+
+    #sidebar-bottom-logo {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+    }
+
+    #sidebar-bottom-logo img {
+      max-width: 50px;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    #sidebar-bottom-logo p {
+      margin-top: 8px;
+      color: var(--text-color);
+      font-size: 0.75em;
+      line-height: 1.2;
+    }
+
+    #sidebar-bottom-logo a {
+      color: var(--text-color);
+      text-decoration: underline;
+    }
+
+    #categoriesContainer {
+      width: 100%;
+    }
+
+    .category-btn {
+      width: 100%;
+      margin-bottom: 8px;
+      padding: 10px;
+      border: 1px solid var(--text-color);
+      border-radius: 12px;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      font-family: "Ubuntu", Arial, sans-serif;
+      font-size: 0.9em;
+      font-weight: bold;
+      transition: transform 0.3s, background-color 0.3s, color 0.3s;
+    }
+
+    .category-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    #favoritesList {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    #favoritesList > p {
+      width: 100%;
+      text-align: center;
+      font-size: 0.75em;
+    }
+
+    .favorite-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+      gap: 6px;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .favorite-name {
+      min-width: 0;
+      color: var(--text-color);
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+      cursor: pointer;
+    }
+
+    .favorite-remove {
+      flex: none;
+      padding: 0 2px;
+      border: 0;
+      background: transparent;
+      color: var(--text-color);
+      font: inherit;
+      font-size: 1.1em;
+      line-height: 1.2;
+      cursor: pointer;
     }
 
     #content {
-      margin-left: 140px;
+      min-height: 100vh;
+      margin-left: 160px;
+      padding: 30px 20px;
     }
-  }
-</style>
+
+    #figures {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      align-items: start;
+    }
+
+    figure {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-self: start;
+      padding: 15px;
+      border: 1px solid var(--text-color);
+      border-radius: 12px;
+      background: var(--surface-color);
+      color: var(--text-color);
+      box-shadow: 0 4px 8px var(--shadow-color);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    figure:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px var(--shadow-color);
+    }
+
+    figure a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    figure img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      object-fit: contain;
+      transition: transform 0.3s;
+    }
+
+    figure img:hover {
+      transform: scale(1.05);
+    }
+
+    figcaption {
+      margin-top: 8px;
+      color: var(--text-color);
+      font-size: 1.1em;
+      text-align: center;
+    }
+
+    .stats {
+      display: none;
+      margin-top: 6px;
+      color: var(--text-color);
+      font-size: 0.85em;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    .show-stats .stats {
+      display: block;
+    }
+
+    .figure-favorite {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 2px;
+      border: none;
+      background: transparent;
+      color: var(--text-color);
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+
+    #backToTop {
+      position: fixed;
+      right: 30px;
+      bottom: 30px;
+      z-index: 1200;
+      display: flex;
+      width: 60px;
+      height: 60px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--text-color);
+      border-radius: 50%;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      box-shadow: 0 4px 8px var(--shadow-color);
+      font-size: 2em;
+      font-weight: bold;
+      transition: opacity 0.3s, transform 0.3s, background-color 0.3s, color 0.3s;
+    }
+
+    #backToTop.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #backToTop:hover {
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      #sidebar {
+        width: 140px;
+        padding: 15px 10px;
+      }
+
+      #content {
+        margin-left: 140px;
+      }
+    }
+  </style>
 </head>
 
-<script
-  data-goatcounter="https://nebbyfi.goatcounter.com/count"
-  async
-  src="//gc.zgo.at/count.js">
-</script>
-
 <body>
-<canvas id="globeBackground"></canvas>
+  <script
+    data-goatcounter="https://nebbyfi.goatcounter.com/count"
+    async
+    src="https://gc.zgo.at/count.js">
+  </script>
 
-<div id="mainContent" style="opacity: 0; pointer-events: none;">
-  <button id="side-toggle" title="Toggle Light/Dark Mode" aria-label="Toggle light and dark mode">☀️</button>
+  <canvas id="globeBackground"></canvas>
 
-  <aside id="sidebar">
-    <input type="search" id="sidebar-search" placeholder="Search..." aria-label="Search" />
-    <h2>Favorites</h2>
-    <div id="favoritesList"></div>
+  <div id="mainContent" style="opacity: 0; pointer-events: none;">
+    <button id="side-toggle" title="Toggle Light/Dark Mode" aria-label="Toggle light and dark mode">☀️</button>
 
-    <div id="categoriesContainer" style="display: none;">
-      <button class="category-btn" data-filter="All"><span>All</span></button>
-      <button class="category-btn" data-filter="Water and Hygiene"><span>Water &amp; Hygiene</span></button>
-      <button class="category-btn" data-filter="Hunger"><span>Hunger</span></button>
-      <button class="category-btn" data-filter="Homelessness"><span>Homelessness</span></button>
-      <button class="category-btn" data-filter="Environment"><span>Environment</span></button>
-      <button class="category-btn" data-filter="Animals"><span>Animals</span></button>
-    </div>
+    <aside id="sidebar">
+      <input type="search" id="sidebar-search" placeholder="Search..." aria-label="Search" />
+      <h2>Favorites</h2>
+      <div id="favoritesList"></div>
 
-    <div id="sidebar-bottom-logo">
-      <img src="https://i.postimg.cc/WFMf88Jn/nebbyfi.jpg" alt="Created by nebbyfi" />
-      <p>
-        <a href="https://bsky.app/profile/nebbyfi.bsky.social" target="_blank" rel="noopener noreferrer">
-          @nebbyfi.bsky.social
-        </a>
-      </p>
-    </div>
-  </aside>
+      <div id="categoriesContainer" style="display: none;">
+        <button class="category-btn" data-filter="All"><span>All</span></button>
+        <button class="category-btn" data-filter="Water and Hygiene"><span>Water &amp; Hygiene</span></button>
+        <button class="category-btn" data-filter="Hunger"><span>Hunger</span></button>
+        <button class="category-btn" data-filter="Homelessness"><span>Homelessness</span></button>
+        <button class="category-btn" data-filter="Environment"><span>Environment</span></button>
+        <button class="category-btn" data-filter="Animals"><span>Animals</span></button>
+      </div>
 
-  <main id="content">
-    <h1 id="main-title" style="display: none;">nebbyfi</h1>
-    <div id="figures"></div>
-  </main>
+      <div id="sidebar-bottom-logo">
+        <img src="https://i.postimg.cc/WFMf88Jn/nebbyfi.jpg" alt="Created by nebbyfi" />
+        <p>
+          <a href="https://bsky.app/profile/nebbyfi.bsky.social" target="_blank" rel="noopener noreferrer">
+            @nebbyfi.bsky.social
+          </a>
+        </p>
+      </div>
+    </aside>
 
-  <button id="backToTop" class="hidden" aria-label="Back to top">↑</button>
-</div>
+    <main id="content">
+      <h1 id="main-title" style="display: none;">nebbyfi</h1>
+      <div id="figures"></div>
+    </main>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+    <button id="backToTop" class="hidden" aria-label="Back to top">↑</button>
+  </div>
 
-<script>
-  let camera;
-  let renderer;
-  let sphereMesh;
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
-  function getThemeColor() {
-    return document.body.classList.contains('dark-mode') ? 0xffffff : 0x14213d;
-  }
+  <script>
+    let camera;
+    let renderer;
+    let sphereMesh;
 
-  function updateGlobeColor() {
-    if (sphereMesh) {
-      sphereMesh.material.color.setHex(getThemeColor());
-    }
-  }
-
-  function initGlobe() {
-    const canvas = document.getElementById('globeBackground');
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    const scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    camera.position.z = 2;
-
-    renderer = new THREE.WebGLRenderer({
-      canvas,
-      alpha: true,
-      antialias: true
-    });
-
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    const geometry = new THREE.SphereGeometry(0.9, 32, 32);
-    const material = new THREE.MeshBasicMaterial({
-      color: getThemeColor(),
-      wireframe: true
-    });
-
-    sphereMesh = new THREE.Mesh(geometry, material);
-    scene.add(sphereMesh);
-
-    window.addEventListener('resize', () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-
-      renderer.setSize(w, h);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-    });
-
-    function animate() {
-      requestAnimationFrame(animate);
-      sphereMesh.rotation.y += 0.001;
-      renderer.render(scene, camera);
+    function getThemeColor() {
+      return document.body.classList.contains("dark-mode") ? 0xffffff : 0xc64f5d;
     }
 
-    animate();
-  }
-
-  const figures = [
-    {
-      href: 'https://www.zanobay.com/',
-      src: 'https://i.postimg.cc/YGzPvwCR/zanobay.png',
-      caption: 'Zano Bay',
-      categoryLabel: 'NA',
-      stats: 'Trade confidently with private, secure, end-to-end encrypted transactions on Zano.'
-    },
-    {
-      href: 'https://zano.cash/request/',
-      src: 'https://i.postimg.cc/rRrV05jr/zano.png',
-      caption: 'Zano Cash',
-      categoryLabel: 'NA',
-      stats: 'Get paid in crypto anonymously with a simple shareable link.'
-    },
-    {
-      href: 'https://obscura.art/',
-      src: 'https://i.postimg.cc/fk0ZRVcJ/logo.png',
-      caption: 'obscura',
-      categoryLabel: 'NA',
-      stats: 'Create and manage NFTs privately on the ZANO blockchain with Obscura.'
-    }
-  ];
-
-  let favorites = [];
-  const backBtn = document.getElementById('backToTop');
-  let hideTimeout = null;
-
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  }
-
-  function loadFavorites() {
-    try {
-      const saved = localStorage.getItem('favorites');
-      favorites = saved ? JSON.parse(saved) : [];
-      if (!Array.isArray(favorites)) favorites = [];
-    } catch {
-      favorites = [];
-    }
-  }
-
-  function saveFavorites() {
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-  }
-
-  function updateFavoritesList() {
-    const container = document.getElementById('favoritesList');
-    container.innerHTML = '';
-
-    if (favorites.length === 0) {
-      const emptyMessage = document.createElement('p');
-      emptyMessage.textContent = 'No favorites yet.';
-      container.appendChild(emptyMessage);
-      return;
+    function updateGlobeColor() {
+      if (sphereMesh) {
+        sphereMesh.material.color.setHex(getThemeColor());
+      }
     }
 
-    favorites.forEach(index => {
-      const item = figures[index];
-      if (!item) return;
+    function initGlobe() {
+      const canvas = document.getElementById("globeBackground");
 
-      const row = document.createElement('div');
-      row.className = 'favorite-item';
-
-      const name = document.createElement('span');
-      name.className = 'favorite-name';
-      name.textContent = item.caption;
-      name.title = item.caption;
-      name.addEventListener('click', () => {
-        window.open(item.href, '_blank', 'noopener,noreferrer');
-      });
-
-      const removeButton = document.createElement('button');
-      removeButton.className = 'favorite-remove';
-      removeButton.type = 'button';
-      removeButton.textContent = '★';
-      removeButton.setAttribute('aria-label', `Remove ${item.caption} from favorites`);
-      removeButton.addEventListener('click', () => toggleFavorite(index));
-
-      row.append(name, removeButton);
-      container.appendChild(row);
-    });
-  }
-
-  function toggleFavorite(index) {
-    const favoriteIndex = favorites.indexOf(index);
-
-    if (favoriteIndex === -1) {
-      if (favorites.length >= 7) {
-        alert('You can only have up to 7 favorites.');
+      if (!canvas || typeof THREE === "undefined") {
         return;
       }
-      favorites.push(index);
-    } else {
-      favorites.splice(favoriteIndex, 1);
+
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const scene = new THREE.Scene();
+
+      camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      camera.position.z = 2;
+
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas,
+          alpha: true,
+          antialias: true
+        });
+      } catch (error) {
+        console.warn("WebGL is unavailable; continuing without the globe.", error);
+        return;
+      }
+
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+      const geometry = new THREE.SphereGeometry(0.9, 32, 32);
+      const material = new THREE.MeshBasicMaterial({
+        color: getThemeColor(),
+        wireframe: true
+      });
+
+      sphereMesh = new THREE.Mesh(geometry, material);
+      scene.add(sphereMesh);
+
+      window.addEventListener("resize", () => {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        sphereMesh.rotation.y += 0.001;
+        renderer.render(scene, camera);
+      }
+
+      animate();
     }
 
-    saveFavorites();
-    updateFavoritesList();
-    populateFigures();
-  }
+    const figures = [
+      {
+        href: "https://www.zanobay.com/",
+        src: "https://i.postimg.cc/YGzPvwCR/zanobay.png",
+        caption: "Zano Bay",
+        categoryLabel: "NA",
+        stats: "Trade confidently with private, secure, end-to-end encrypted transactions on Zano."
+      },
+      {
+        href: "https://zano.cash/request/",
+        src: "https://i.postimg.cc/rRrV05jr/zano.png",
+        caption: "Zano Cash",
+        categoryLabel: "NA",
+        stats: "Get paid in crypto anonymously with a simple shareable link."
+      },
+      {
+        href: "https://obscura.art/",
+        src: "https://i.postimg.cc/fk0ZRVcJ/logo.png",
+        caption: "obscura",
+        categoryLabel: "NA",
+        stats: "Create and manage NFTs privately on the ZANO blockchain with Obscura."
+      }
+    ];
 
-  function populateFigures() {
-    const container = document.getElementById('figures');
-    container.innerHTML = '';
+    let favorites = [];
+    const backBtn = document.getElementById("backToTop");
+    let hideTimeout = null;
 
-    figures.forEach((item, index) => {
-      const figure = document.createElement('figure');
-      figure.dataset.category = item.categoryLabel;
-      figure.dataset.index = index;
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
 
-      figure.addEventListener('click', () => {
-        figure.classList.toggle('show-stats');
+    function loadFavorites() {
+      try {
+        const saved = localStorage.getItem("favorites");
+        favorites = saved ? JSON.parse(saved) : [];
+
+        if (!Array.isArray(favorites)) {
+          favorites = [];
+        }
+
+        favorites = favorites.filter(index =>
+          Number.isInteger(index) && figures[index]
+        );
+      } catch {
+        favorites = [];
+      }
+    }
+
+    function saveFavorites() {
+      try {
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+      } catch (error) {
+        console.warn("Could not save favorites.", error);
+      }
+    }
+
+    function updateFavoritesList() {
+      const container = document.getElementById("favoritesList");
+      container.innerHTML = "";
+
+      if (favorites.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.textContent = "No favorites yet.";
+        container.appendChild(emptyMessage);
+        return;
+      }
+
+      favorites.forEach(index => {
+        const item = figures[index];
+        if (!item) return;
+
+        const row = document.createElement("div");
+        row.className = "favorite-item";
+
+        const name = document.createElement("span");
+        name.className = "favorite-name";
+        name.textContent = item.caption;
+        name.title = item.caption;
+        name.addEventListener("click", () => {
+          window.open(item.href, "_blank", "noopener,noreferrer");
+        });
+
+        const removeButton = document.createElement("button");
+        removeButton.className = "favorite-remove";
+        removeButton.type = "button";
+        removeButton.textContent = "★";
+        removeButton.setAttribute(
+          "aria-label",
+          `Remove ${item.caption} from favorites`
+        );
+        removeButton.addEventListener("click", () => toggleFavorite(index));
+
+        row.append(name, removeButton);
+        container.appendChild(row);
       });
+    }
 
-      const favoriteButton = document.createElement('button');
-      favoriteButton.className = 'figure-favorite';
-      favoriteButton.type = 'button';
-      favoriteButton.dataset.index = index;
-      favoriteButton.textContent = favorites.includes(index) ? '★' : '☆';
-      favoriteButton.setAttribute(
-        'aria-label',
-        favorites.includes(index) ? 'Remove from favorites' : 'Add to favorites'
+    function toggleFavorite(index) {
+      const favoriteIndex = favorites.indexOf(index);
+
+      if (favoriteIndex === -1) {
+        if (favorites.length >= 7) {
+          alert("You can only have up to 7 favorites.");
+          return;
+        }
+        favorites.push(index);
+      } else {
+        favorites.splice(favoriteIndex, 1);
+      }
+
+      saveFavorites();
+      updateFavoritesList();
+      populateFigures();
+    }
+
+    function populateFigures() {
+      const container = document.getElementById("figures");
+      container.innerHTML = "";
+
+      figures.forEach((item, index) => {
+        const figure = document.createElement("figure");
+        figure.dataset.category = item.categoryLabel;
+        figure.dataset.index = index;
+
+        figure.addEventListener("click", event => {
+          if (event.target.closest("a, .figure-favorite")) {
+            return;
+          }
+
+          figure.classList.toggle("show-stats");
+        });
+
+        const favoriteButton = document.createElement("button");
+        favoriteButton.className = "figure-favorite";
+        favoriteButton.type = "button";
+        favoriteButton.dataset.index = index;
+        favoriteButton.textContent = favorites.includes(index) ? "★" : "☆";
+        favoriteButton.setAttribute(
+          "aria-label",
+          favorites.includes(index) ? "Remove from favorites" : "Add to favorites"
+        );
+
+        const link = document.createElement("a");
+        link.href = item.href;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        const image = document.createElement("img");
+        image.src = item.src;
+        image.alt = item.caption;
+        link.appendChild(image);
+
+        const caption = document.createElement("figcaption");
+        caption.textContent = item.caption;
+
+        const stats = document.createElement("div");
+        stats.className = "stats";
+        stats.textContent = item.stats;
+
+        const details = document.createElement("div");
+        details.className = "fig-details";
+        details.append(caption, stats);
+
+        figure.append(favoriteButton, link, details);
+        container.appendChild(figure);
+      });
+    }
+
+    function filterFigures(type, value) {
+      const searchValue = value.toLowerCase();
+
+      document.querySelectorAll("#figures figure").forEach(figure => {
+        const category = figure.dataset.category.toLowerCase();
+        const caption = figure.querySelector("figcaption").textContent.toLowerCase();
+        const stats = figure.querySelector(".stats").textContent.toLowerCase();
+
+        if (type === "category") {
+          figure.style.display =
+            searchValue === "all" || category === searchValue ? "" : "none";
+        } else if (type === "search") {
+          figure.style.display =
+            !searchValue ||
+            category.includes(searchValue) ||
+            caption.includes(searchValue) ||
+            stats.includes(searchValue)
+              ? ""
+              : "none";
+        }
+      });
+    }
+
+    function updateThemeToggle() {
+      const toggle = document.getElementById("side-toggle");
+      const isDark = document.body.classList.contains("dark-mode");
+
+      toggle.textContent = isDark ? "☀️" : "🌙";
+      toggle.setAttribute(
+        "aria-label",
+        isDark ? "Switch to light mode" : "Switch to dark mode"
       );
 
-      const link = document.createElement('a');
-      link.href = item.href;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
+      updateGlobeColor();
+    }
 
-      const image = document.createElement('img');
-      image.src = item.src;
-      image.alt = item.caption;
-      link.appendChild(image);
-
-      const caption = document.createElement('figcaption');
-      caption.textContent = item.caption;
-
-      const stats = document.createElement('div');
-      stats.className = 'stats';
-      stats.textContent = item.stats;
-
-      const details = document.createElement('div');
-      details.className = 'fig-details';
-      details.append(caption, stats);
-
-      figure.append(favoriteButton, link, details);
-      container.appendChild(figure);
-    });https://i.postimg.cc/WFMf88Jn/nebbyfi.jpg
-  }
-
-  function filterFigures(type, value) {
-    const searchValue = value.toLowerCase();
-
-    document.querySelectorAll('#figures figure').forEach(figure => {
-      const category = figure.dataset.category.toLowerCase();
-      const caption = figure.querySelector('figcaption').textContent.toLowerCase();
-      const stats = figure.querySelector('.stats').textContent.toLowerCase();
-
-      if (type === 'category') {
-        figure.style.display =
-          searchValue === 'all' || category === searchValue ? '' : 'none';
-      } else if (type === 'search') {
-        figure.style.display =
-          !searchValue ||
-          category.includes(searchValue) ||
-          caption.includes(searchValue) ||
-          stats.includes(searchValue)
-            ? ''
-            : 'none';
-      }
-    });
-  }
-
-  function updateThemeToggle() {
-    const toggle = document.getElementById('side-toggle');
-    const isDark = document.body.classList.contains('dark-mode');
-
-    toggle.textContent = isDark ? '☀️' : '🌙';
-    toggle.setAttribute(
-      'aria-label',
-      isDark ? 'Switch to light mode' : 'Switch to dark mode'
-    );
-
-    updateGlobeColor();
-  }
-
-  window.addEventListener('load', () => {
-    document.body.classList.add('dark-mode');
-    initGlobe();
-    updateThemeToggle();
-
-    const mainContent = document.getElementById('mainContent');
-    mainContent.style.opacity = '1';
-    mainContent.style.pointerEvents = 'auto';
-
-    document.getElementById('side-toggle').addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
+    window.addEventListener("load", () => {
+      document.body.classList.add("dark-mode");
+      initGlobe();
       updateThemeToggle();
-    });
 
-    loadFavorites();
-    shuffleArray(figures);
-    populateFigures();
-    filterFigures('category', 'All');
-    updateFavoritesList();
+      const mainContent = document.getElementById("mainContent");
+      mainContent.style.opacity = "1";
+      mainContent.style.pointerEvents = "auto";
 
-    document.getElementById('sidebar-search').addEventListener('input', event => {
-      filterFigures('search', event.target.value);
-    });
+      document.getElementById("side-toggle").addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        updateThemeToggle();
+      });
 
-    document.addEventListener('click', event => {
-      const button = event.target.closest('.figure-favorite');
-      if (!button) return;
+      loadFavorites();
+      shuffleArray(figures);
+      populateFigures();
+      filterFigures("category", "All");
+      updateFavoritesList();
 
-      event.preventDefault();
-      event.stopPropagation();
-      toggleFavorite(Number(button.dataset.index));
-    });
+      document.getElementById("sidebar-search").addEventListener("input", event => {
+        filterFigures("search", event.target.value);
+      });
 
-    document.querySelectorAll('.category-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        filterFigures('category', button.dataset.filter);
+      document.addEventListener("click", event => {
+        const button = event.target.closest(".figure-favorite");
+        if (!button) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+        toggleFavorite(Number(button.dataset.index));
+      });
+
+      document.querySelectorAll(".category-btn").forEach(button => {
+        button.addEventListener("click", () => {
+          filterFigures("category", button.dataset.filter);
+        });
+      });
+
+      window.addEventListener("scroll", () => {
+        backBtn.classList.remove("hidden");
+
+        if (hideTimeout) {
+          clearTimeout(hideTimeout);
+        }
+
+        hideTimeout = setTimeout(() => {
+          backBtn.classList.add("hidden");
+        }, 2000);
+      });
+
+      backBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       });
     });
-
-    window.addEventListener('scroll', () => {
-      backBtn.classList.remove('hidden');
-
-      if (hideTimeout) clearTimeout(hideTimeout);
-
-      hideTimeout = setTimeout(() => {
-        backBtn.classList.add('hidden');
-      }, 2000);
-    });
-
-    backBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  });
-</script>
+  </script>
 </body>
 </html>
