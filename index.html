@@ -599,7 +599,16 @@
       const container = document.getElementById("figures");
       container.innerHTML = "";
 
-      figures.forEach((item, index) => {
+      const shuffledFigures = [...figures];
+
+      for (let i = shuffledFigures.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledFigures[i], shuffledFigures[j]] =
+          [shuffledFigures[j], shuffledFigures[i]];
+      }
+
+      shuffledFigures.forEach(item => {
+        const index = figures.indexOf(item);
         const figure = document.createElement("figure");
         figure.dataset.category = item.categoryLabel;
         figure.dataset.index = index;
