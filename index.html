@@ -106,6 +106,7 @@
       color: var(--text-color);
       font-family: "Ubuntu", Arial, sans-serif;
       font-size: 14px;
+      cursor: text;
     }
 
     #sidebar input[type="search"]::placeholder {
@@ -230,7 +231,7 @@
     #content {
       min-height: 100vh;
       margin-left: 160px;
-      padding: 30px 20px;
+      padding: 30px 20px 90px;
     }
 
     #figures {
@@ -314,7 +315,7 @@
     #backToTop {
       position: fixed;
       right: 30px;
-      bottom: 30px;
+      bottom: 70px;
       z-index: 1200;
       display: flex;
       width: 60px;
@@ -340,6 +341,51 @@
       transform: scale(1.1);
     }
 
+    #zano-footer {
+      position: fixed;
+      bottom: 0;
+      left: 160px;
+      z-index: 1100;
+      display: flex;
+      width: calc(100% - 160px);
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--surface-color);
+      color: var(--text-color);
+      box-shadow: 0 -2px 8px var(--shadow-color);
+      font-size: 0.85rem;
+    }
+
+    #zano-address {
+      width: min(700px, 70%);
+      min-width: 0;
+      padding: 6px 8px;
+      border: 1px solid var(--text-color);
+      border-radius: 4px;
+      background: var(--bg-color);
+      color: var(--text-color);
+      font: inherit;
+      cursor: text;
+    }
+
+    #copy-zano {
+      flex: none;
+      padding: 6px 10px;
+      border: 1px solid var(--text-color);
+      border-radius: 4px;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      font: inherit;
+      cursor: pointer;
+    }
+
+    #copy-zano:hover {
+      background: var(--text-color);
+      color: var(--bg-color);
+    }
+
     @media (max-width: 768px) {
       #sidebar {
         width: 140px;
@@ -348,6 +394,29 @@
 
       #content {
         margin-left: 140px;
+      }
+
+      #zano-footer {
+        left: 140px;
+        width: calc(100% - 140px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      #zano-footer {
+        gap: 5px;
+        padding: 8px 6px;
+        font-size: 0.7rem;
+      }
+
+      #zano-address {
+        width: auto;
+        flex: 1;
+        font-size: 0.65rem;
+      }
+
+      #copy-zano {
+        padding: 6px;
       }
     }
   </style>
@@ -395,6 +464,19 @@
     </main>
 
     <button id="backToTop" class="hidden" aria-label="Back to top">↑</button>
+
+    <div id="zano-footer">
+      <span>ZANO:</span>
+      <input
+        id="zano-address"
+        type="text"
+        value="ZxBvYdqwc7w87RQsSSLJVJ7oRjSHh8USiEtQxgQCiWppWLvH8BusRu3hPM4dCLhZDtfhBiqN3ug4oQGpi31UZ9hc1MPfayXgb"
+        readonly
+        aria-label="ZANO address"
+        onclick="this.select()"
+      />
+      <button id="copy-zano" type="button">Copy</button>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
@@ -470,7 +552,7 @@
     }
 
     const figures = [
-     {
+      {
         href: "https://mangmi.com/products/mangmi-air-x",
         src: "https://i.postimg.cc/CB181p9V/Screenshot-From-2026-10-11-23-41-43.png",
         caption: "Mangmi Air X",
@@ -701,6 +783,25 @@
         button.addEventListener("click", () => {
           filterFigures("category", button.dataset.filter);
         });
+      });
+
+      document.getElementById("copy-zano").addEventListener("click", async () => {
+        const addressInput = document.getElementById("zano-address");
+        const copyButton = document.getElementById("copy-zano");
+
+        try {
+          await navigator.clipboard.writeText(addressInput.value);
+          copyButton.textContent = "Copied!";
+        } catch {
+          addressInput.select();
+          addressInput.setSelectionRange(0, addressInput.value.length);
+          document.execCommand("copy");
+          copyButton.textContent = "Copied!";
+        }
+
+        setTimeout(() => {
+          copyButton.textContent = "Copy";
+        }, 1500);
       });
 
       window.addEventListener("scroll", () => {
