@@ -255,13 +255,23 @@
 
     .blog-posts {
       display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(240px, 320px);
       gap: 12px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 2px 12px;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
     }
 
     .blog-post {
+      min-width: 0;
       padding: 14px;
       border-radius: 8px;
       background: var(--bg-color);
+      scroll-snap-align: start;
     }
 
     .blog-post h3 {
@@ -281,14 +291,22 @@
 
     #figures {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(180px, 240px);
       gap: 20px;
       align-items: start;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 2px 12px;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
     }
 
     figure {
       position: relative;
       display: flex;
+      min-width: 0;
       flex-direction: column;
       align-items: center;
       align-self: start;
@@ -299,6 +317,7 @@
       color: var(--text-color);
       box-shadow: 0 4px 8px var(--shadow-color);
       transition: transform 0.3s, box-shadow 0.3s;
+      scroll-snap-align: start;
     }
 
     figure:hover {
@@ -463,6 +482,14 @@
       #copy-zano {
         padding: 6px;
       }
+
+      .blog-posts {
+        grid-auto-columns: minmax(220px, 85%);
+      }
+
+      #figures {
+        grid-auto-columns: minmax(180px, 75%);
+      }
     }
   </style>
 </head>
@@ -509,11 +536,70 @@
         <p>Updates, thoughts, and notes from nebbykit.</p>
 
         <div class="blog-posts">
-          <!-- Copy this article block to add another blog post. -->
           <article class="blog-post">
             <h3>Welcome to my blog</h3>
             <time datetime="2026-10-13">October 13, 2026</time>
             <p>Write your post here. Add more posts by copying this article block.</p>
+          </article>
+
+          <article class="blog-post">
+            <h3>A cozy corner of the internet</h3>
+            <time datetime="2026-10-12">October 12, 2026</time>
+            <p>Making a little space online for projects, thoughts, and things I enjoy.</p>
+          </article>
+
+          <article class="blog-post">
+            <h3>Handheld gaming memories</h3>
+            <time datetime="2026-10-11">October 11, 2026</time>
+            <p>There is something special about taking a favorite game wherever you go.</p>
+          </article>
+
+          <article class="blog-post">
+            <h3>Small projects, big ideas</h3>
+            <time datetime="2026-10-10">October 10, 2026</time>
+            <p>A few notes on turning small ideas into fun weekend projects.</p>
+          </article>
+
+          <article class="blog-post">
+            <h3>What I’m playing lately</h3>
+            <time datetime="2026-10-09">October 9, 2026</time>
+            <p>Sharing a handful of games that have been keeping me entertained recently.</p>
+          </article>
+
+          <article class="blog-post">
+            <h3>Building a better setup</h3>
+            <time datetime="2026-10-08">October 8, 2026</time>
+            <p>Some thoughts on making a comfortable desk and gaming space.</p>
+          </article>
+
+          <article class="blog-post">
+            <h3>Favorite things this month</h3>
+            <time datetime="2026-10-07">October 7, 2026</time>
+            <p>A little roundup of gadgets, games, and discoveries I’ve enjoyed.</p>
+          </article>
+
+          <article class="blog-post">
+            <h3>Learning as I go</h3>
+            <time datetime="2026-10-06">October 6, 2026</time>
+            <p>Trying new things, making mistakes, and picking up useful skills along the way.</p>
+          </article>
+
+          <article class="blog-post">
+            <h3>A few things on my wishlist</h3>
+            <time datetime="2026-10-05">October 5, 2026</time>
+            <p>Some interesting devices and ideas I’d love to explore in the future.</p>
+          </article>
+
+          <article class="blog-post">
+            <h3>Taking a creative break</h3>
+            <time datetime="2026-10-04">October 4, 2026</time>
+            <p>Sometimes stepping away for a bit is the best way to come back with fresh ideas.</p>
+          </article>
+
+          <article class="blog-post">
+            <h3>Thanks for stopping by</h3>
+            <time datetime="2026-10-03">October 3, 2026</time>
+            <p>Thanks for visiting my site. I hope you find something here that makes you smile.</p>
           </article>
         </div>
       </section>
@@ -626,6 +712,76 @@
         caption: "PS VITA 1000",
         categoryLabel: "NA",
         stats: "The best PlayStation handheld of all time, complete with full touch AMOLED display."
+      },
+      {
+        href: "https://www.nintendo.com/us/switch/",
+        src: "https://placehold.co/160x160/ffe0c2/542b3c?text=Switch",
+        caption: "Nintendo Switch",
+        categoryLabel: "Gaming",
+        stats: "A versatile hybrid console for playing at home or on the go."
+      },
+      {
+        href: "https://www.playstation.com/",
+        src: "https://placehold.co/160x160/14213d/ffffff?text=PlayStation",
+        caption: "PlayStation",
+        categoryLabel: "Gaming",
+        stats: "A home console ecosystem with a wide range of games and accessories."
+      },
+      {
+        href: "https://www.xbox.com/",
+        src: "https://placehold.co/160x160/1b5e20/ffffff?text=Xbox",
+        caption: "Xbox",
+        categoryLabel: "Gaming",
+        stats: "A gaming platform with console, PC, and subscription options."
+      },
+      {
+        href: "https://www.steamdeck.com/",
+        src: "https://placehold.co/160x160/263238/ffffff?text=Steam+Deck",
+        caption: "Steam Deck",
+        categoryLabel: "Gaming",
+        stats: "A handheld PC designed to bring a large library of computer games on the go."
+      },
+      {
+        href: "https://www.analogue.co/pocket",
+        src: "https://placehold.co/160x160/eeeeee/222222?text=Analogue",
+        caption: "Analogue Pocket",
+        categoryLabel: "Gaming",
+        stats: "A modern handheld built for playing classic portable game cartridges."
+      },
+      {
+        href: "https://www.raspberrypi.com/",
+        src: "https://placehold.co/160x160/c62828/ffffff?text=Raspberry+Pi",
+        caption: "Raspberry Pi",
+        categoryLabel: "Technology",
+        stats: "A compact computer often used for learning, tinkering, and small projects."
+      },
+      {
+        href: "https://www.arduino.cc/",
+        src: "https://placehold.co/160x160/00897b/ffffff?text=Arduino",
+        caption: "Arduino",
+        categoryLabel: "Technology",
+        stats: "A popular platform for experimenting with electronics and interactive projects."
+      },
+      {
+        href: "https://www.lego.com/",
+        src: "https://placehold.co/160x160/f9a825/542b3c?text=LEGO",
+        caption: "LEGO",
+        categoryLabel: "Hobbies",
+        stats: "Creative building sets for designing, collecting, and displaying."
+      },
+      {
+        href: "https://www.ifixit.com/",
+        src: "https://placehold.co/160x160/1565c0/ffffff?text=Repair",
+        caption: "Repair Projects",
+        categoryLabel: "Hobbies",
+        stats: "A reminder that many devices can be repaired, maintained, or upgraded."
+      },
+      {
+        href: "https://www.wikipedia.org/",
+        src: "https://placehold.co/160x160/607d8b/ffffff?text=Explore",
+        caption: "Curiosity",
+        categoryLabel: "Hobbies",
+        stats: "There is always something new to learn, explore, or add to a project."
       }
     ];
 
