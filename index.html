@@ -234,73 +234,36 @@
       padding: 30px 20px 90px;
     }
 
-    #blog {
-      margin-bottom: 32px;
-      padding: 20px;
-      border: 1px solid var(--text-color);
-      border-radius: 12px;
-      background: var(--surface-color);
-      box-shadow: 0 4px 8px var(--shadow-color);
+    .bluesky-carousel {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(320px, 1fr);
+      gap: 16px;
+      overflow-x: auto;
+      padding: 4px 2px 16px;
+      margin-bottom: 24px;
+      scroll-snap-type: x mandatory;
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
     }
 
-    #blog h1,
+    .bluesky-carousel .bluesky-embed {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      scroll-snap-align: start;
+    }
+
     #ecosystem-title {
       margin-bottom: 12px;
     }
 
-    #blog > p {
-      margin-bottom: 16px;
-      line-height: 1.5;
-    }
-
-    .blog-posts {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(240px, 320px);
-      gap: 12px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 4px 2px 12px;
-      scroll-snap-type: x mandatory;
-      overscroll-behavior-x: contain;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .blog-post {
-      min-width: 0;
-      padding: 14px;
-      border-radius: 8px;
-      background: var(--bg-color);
-      scroll-snap-align: start;
-    }
-
-    .blog-post h3 {
-      margin-bottom: 6px;
-    }
-
-    .blog-post time {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 0.85em;
-      opacity: 0.75;
-    }
-
-    .blog-post p {
-      line-height: 1.5;
-    }
-
     #figures {
       display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(180px, 240px);
+      grid-template-columns: repeat(auto-fit, minmax(180px, 240px));
       gap: 20px;
       align-items: start;
-      overflow-x: auto;
-      overflow-y: hidden;
       padding: 4px 2px 12px;
-      scroll-snap-type: x mandatory;
-      overscroll-behavior-x: contain;
-      -webkit-overflow-scrolling: touch;
     }
 
     figure {
@@ -317,7 +280,6 @@
       color: var(--text-color);
       box-shadow: 0 4px 8px var(--shadow-color);
       transition: transform 0.3s, box-shadow 0.3s;
-      scroll-snap-align: start;
     }
 
     figure:hover {
@@ -483,12 +445,8 @@
         padding: 6px;
       }
 
-      .blog-posts {
-        grid-auto-columns: minmax(220px, 85%);
-      }
-
-      #figures {
-        grid-auto-columns: minmax(180px, 75%);
+      .bluesky-carousel {
+        grid-auto-columns: minmax(280px, 90%);
       }
     }
   </style>
@@ -531,118 +489,37 @@
     </aside>
 
     <main id="content">
-      <section id="blog" aria-labelledby="blog-title">
-        <h1 id="blog-title">Blog</h1>
-        <p>Updates, thoughts, and notes from nebbykit.</p>
+      <div class="bluesky-carousel" aria-label="Bluesky posts">
+        <blockquote
+          class="bluesky-embed"
+          data-bluesky-uri="at://did:plc:roahe2pvx3wqoxtb4izqp6ey/app.bsky.feed.post/3mxvijaxxkc2v"
+          data-bluesky-cid="bafyreifbxp57zjt43vlrrseo62hme7xhfcznhbzauh43ioy22whosugdci"
+          data-bluesky-embed-color-mode="system"
+        >
+          <p lang="en">
+            <br><br>
+            <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijaxxkc2v?ref_src=embed">[image or embed]</a>
+          </p>
+          &mdash; Nebby [nsfw]
+          (<a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey?ref_src=embed">@nebbykit.bsky.social</a>)
+          <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijaxxkc2v?ref_src=embed">October 15, 2026 at 12:01 AM</a>
+        </blockquote>
 
-        <div class="blog-posts">
-          <article class="blog-post">
-            <h3>Welcome to my blog</h3>
-            <time datetime="2026-10-13">October 13, 2026</time>
-            <p># The Quiet Geometry of Button Soup
-
-On Tuesday, a small blue spoon arrived at the library carrying a suitcase full of weather. Nobody had ordered either item, but the librarian placed them beside the dictionary, where they seemed comfortable enough. The spoon hummed softly whenever someone said the word “perhaps,” and the suitcase smelled faintly of toast.
-
-Across town, the Department of Unfinished Corners held its annual meeting. The chairperson, a tall envelope named Gerald, opened proceedings by asking whether anyone had seen the missing Thursday. Three people raised their hands, though none could explain what they were holding. One held a receipt for six invisible pears. Another held a map of a room that had never been built. The third held a very ordinary sandwich, which was considered suspicious.
-
-Meanwhile, the moon was practicing its signature on a stack of damp napkins. It had recently decided to become more legible, partly because the stars kept mistaking its handwriting for a recipe. “Add two cups of silence,” one star read aloud, and immediately began measuring the night with a teaspoon.
-
-In the basement of a yellow apartment building, a committee of socks discussed the future of indoor puddles. Their spokesperson, a striped sock called Maribel, argued that puddles should be allowed to wear hats. The proposal passed unanimously after someone suggested that the hats be made of Tuesday. Nobody remembered what Tuesday looked like, but this did not stop the vote.
-
-At precisely half past a color, the blue spoon left the library and boarded a train headed toward the nearest idea. The conductor punched its ticket with a small cloud. There were no seats, only several polite cushions arranged around a question mark. A passenger asked whether the train stopped at the ocean. The conductor replied, “Only when it feels rectangular.”
-
-By then, Gerald the envelope had discovered a note tucked inside his own flap. It read: “Please return the staircase to the person who borrowed the beginning.” Gerald frowned, although envelopes do not usually have faces. He called a meeting about it, but the meeting had been moved to a cupboard and could not be found.
-
-The suitcase of weather remained at the library. It opened once, releasing a brief forecast of sideways marmalade, followed by a gentle breeze that smelled like yesterday’s piano. The librarian wrote this down in the guest book, under the heading “Things That May Be Useful Later.” The page folded itself into a paper boat and sailed across the desk.
-
-At sunset, which happened in the middle of the afternoon for reasons nobody investigated, the socks returned home. Maribel wore a tiny hat made of Tuesday and declared the puddles officially respectable. The moon finished its signature, then crossed it out and drew a staircase instead.
-
-Somewhere, a sandwich continued to look suspicious. Somewhere else, six invisible pears waited patiently in their receipt. The blue spoon hummed one last “perhaps,” and the library clock nodded, though it had been counting buttons all day.
-
-Nothing important happened, which was fortunate, because nobody had brought a notebook large enough to record it. By morning, the train had become a cupboard, the cupboard had become a question, and the question had forgotten what it was asking. Gerald filed the whole affair under “miscellaneous weather,” beside a button that tasted faintly of Thursday.</p>
-          </article>
-
-          <article class="blog-post">
-            <h3>A cozy corner of the internet</h3>
-            <time datetime="2026-10-12">October 12, 2026</time>
-            <p># The Quiet Geometry of Button Soup
-
-On Tuesday, a small blue spoon arrived at the library carrying a suitcase full of weather. Nobody had ordered either item, but the librarian placed them beside the dictionary, where they seemed comfortable enough. The spoon hummed softly whenever someone said the word “perhaps,” and the suitcase smelled faintly of toast.
-
-Across town, the Department of Unfinished Corners held its annual meeting. The chairperson, a tall envelope named Gerald, opened proceedings by asking whether anyone had seen the missing Thursday. Three people raised their hands, though none could explain what they were holding. One held a receipt for six invisible pears. Another held a map of a room that had never been built. The third held a very ordinary sandwich, which was considered suspicious.
-
-Meanwhile, the moon was practicing its signature on a stack of damp napkins. It had recently decided to become more legible, partly because the stars kept mistaking its handwriting for a recipe. “Add two cups of silence,” one star read aloud, and immediately began measuring the night with a teaspoon.
-
-In the basement of a yellow apartment building, a committee of socks discussed the future of indoor puddles. Their spokesperson, a striped sock called Maribel, argued that puddles should be allowed to wear hats. The proposal passed unanimously after someone suggested that the hats be made of Tuesday. Nobody remembered what Tuesday looked like, but this did not stop the vote.
-
-At precisely half past a color, the blue spoon left the library and boarded a train headed toward the nearest idea. The conductor punched its ticket with a small cloud. There were no seats, only several polite cushions arranged around a question mark. A passenger asked whether the train stopped at the ocean. The conductor replied, “Only when it feels rectangular.”
-
-By then, Gerald the envelope had discovered a note tucked inside his own flap. It read: “Please return the staircase to the person who borrowed the beginning.” Gerald frowned, although envelopes do not usually have faces. He called a meeting about it, but the meeting had been moved to a cupboard and could not be found.
-
-The suitcase of weather remained at the library. It opened once, releasing a brief forecast of sideways marmalade, followed by a gentle breeze that smelled like yesterday’s piano. The librarian wrote this down in the guest book, under the heading “Things That May Be Useful Later.” The page folded itself into a paper boat and sailed across the desk.
-
-At sunset, which happened in the middle of the afternoon for reasons nobody investigated, the socks returned home. Maribel wore a tiny hat made of Tuesday and declared the puddles officially respectable. The moon finished its signature, then crossed it out and drew a staircase instead.
-
-Somewhere, a sandwich continued to look suspicious. Somewhere else, six invisible pears waited patiently in their receipt. The blue spoon hummed one last “perhaps,” and the library clock nodded, though it had been counting buttons all day.
-
-Nothing important happened, which was fortunate, because nobody had brought a notebook large enough to record it. By morning, the train had become a cupboard, the cupboard had become a question, and the question had forgotten what it was asking. Gerald filed the whole affair under “miscellaneous weather,” beside a button that tasted faintly of Thursday.</p>
-          </article>
-
-          <article class="blog-post">
-            <h3>Handheld gaming memories</h3>
-            <time datetime="2026-10-11">October 11, 2026</time>
-            <p>There is something special about taking a favorite game wherever you go.</p>
-          </article>
-
-          <article class="blog-post">
-            <h3>Small projects, big ideas</h3>
-            <time datetime="2026-10-10">October 10, 2026</time>
-            <p>A few notes on turning small ideas into fun weekend projects.</p>
-          </article>
-
-          <article class="blog-post">
-            <h3>What I’m playing lately</h3>
-            <time datetime="2026-10-09">October 9, 2026</time>
-            <p>Sharing a handful of games that have been keeping me entertained recently.</p>
-          </article>
-
-          <article class="blog-post">
-            <h3>Building a better setup</h3>
-            <time datetime="2026-10-08">October 8, 2026</time>
-            <p>Some thoughts on making a comfortable desk and gaming space.</p>
-          </article>
-
-          <article class="blog-post">
-            <h3>Favorite things this month</h3>
-            <time datetime="2026-10-07">October 7, 2026</time>
-            <p>A little roundup of gadgets, games, and discoveries I’ve enjoyed.</p>
-          </article>
-
-          <article class="blog-post">
-            <h3>Learning as I go</h3>
-            <time datetime="2026-10-06">October 6, 2026</time>
-            <p>Trying new things, making mistakes, and picking up useful skills along the way.</p>
-          </article>
-
-          <article class="blog-post">
-            <h3>A few things on my wishlist</h3>
-            <time datetime="2026-10-05">October 5, 2026</time>
-            <p>Some interesting devices and ideas I’d love to explore in the future.</p>
-          </article>
-
-          <article class="blog-post">
-            <h3>Taking a creative break</h3>
-            <time datetime="2026-10-04">October 4, 2026</time>
-            <p>Sometimes stepping away for a bit is the best way to come back with fresh ideas.</p>
-          </article>
-
-          <article class="blog-post">
-            <h3>Thanks for stopping by</h3>
-            <time datetime="2026-10-03">October 3, 2026</time>
-            <p>Thanks for visiting my site. I hope you find something here that makes you smile.</p>
-          </article>
-        </div>
-      </section>
+        <blockquote
+          class="bluesky-embed"
+          data-bluesky-uri="at://did:plc:roahe2pvx3wqoxtb4izqp6ey/app.bsky.feed.post/3mxvijswbi22v"
+          data-bluesky-cid="bafyreiar36mpjzrzvecgmdib3bzgbpm6mvs5fkbplerqr54dfp4nigv7hm"
+          data-bluesky-embed-color-mode="system"
+        >
+          <p lang="en">
+            <br><br>
+            <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijswbi22v?ref_src=embed">[image or embed]</a>
+          </p>
+          &mdash; Nebby [nsfw]
+          (<a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey?ref_src=embed">@nebbykit.bsky.social</a>)
+          <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijswbi22v?ref_src=embed">October 15, 2026 at 12:01 AM</a>
+        </blockquote>
+      </div>
 
       <section aria-labelledby="ecosystem-title">
         <h2 id="ecosystem-title">Ecosystem</h2>
@@ -666,6 +543,7 @@ Nothing important happened, which was fortunate, because nobody had brought a no
     </div>
   </div>
 
+  <script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
   <script>
