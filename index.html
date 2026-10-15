@@ -13,6 +13,7 @@
       --surface-color: #ffe0c2;
       --accent-color: #c64f5d;
       --shadow-color: rgba(84, 43, 60, 0.18);
+      --sidebar-width: 160px;
     }
 
     body.dark-mode {
@@ -66,8 +67,6 @@
       z-index: 1;
       width: 100%;
       min-height: 100vh;
-      opacity: 1;
-      transition: opacity 0.5s ease;
     }
 
     #sidebar {
@@ -76,7 +75,7 @@
       left: 0;
       z-index: 1000;
       display: flex;
-      width: 160px;
+      width: var(--sidebar-width);
       height: 100%;
       flex-direction: column;
       align-items: center;
@@ -85,6 +84,12 @@
       background: var(--surface-color);
       color: var(--text-color);
       box-shadow: 2px 0 8px var(--shadow-color);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    body.sidebar-open #sidebar {
+      transform: translateX(0);
     }
 
     #sidebar::-webkit-scrollbar {
@@ -131,14 +136,33 @@
       color: var(--bg-color);
       font-family: "Ubuntu", Arial, sans-serif;
       font-weight: bold;
-      transition: background-color 0.3s, color 0.3s;
     }
 
     #side-toggle:hover,
     #backToTop:hover,
-    .category-btn:hover {
+    .category-btn:hover,
+    #sidebar-toggle:hover {
       background: var(--text-color);
       color: var(--bg-color);
+    }
+
+    #sidebar-toggle {
+      position: fixed;
+      top: 20px;
+      left: 12px;
+      z-index: 1400;
+      padding: 10px 12px;
+      border: 1px solid var(--text-color);
+      border-radius: 8px;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      font: inherit;
+      cursor: pointer;
+      transition: left 0.3s ease, background-color 0.3s, color 0.3s;
+    }
+
+    body.sidebar-open #sidebar-toggle {
+      left: calc(var(--sidebar-width) + 12px);
     }
 
     #sidebar-bottom-logo {
@@ -230,28 +254,40 @@
 
     #content {
       min-height: 100vh;
-      margin-left: 160px;
-      padding: 30px 20px 90px;
+      margin-left: 0;
+      padding: 80px 20px 90px;
+      transition: margin-left 0.3s ease;
     }
 
+    body.sidebar-open #content {
+      margin-left: var(--sidebar-width);
+    }
+
+    /* Desktop: each post occupies exactly half of the available carousel width. */
     .bluesky-carousel {
       display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(320px, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
-      overflow-x: auto;
+      align-items: start;
+      width: 100%;
+      overflow: hidden;
       padding: 4px 2px 16px;
       margin-bottom: 24px;
-      scroll-snap-type: x mandatory;
-      overscroll-behavior-x: contain;
-      -webkit-overflow-scrolling: touch;
     }
 
-    .bluesky-carousel .bluesky-embed {
-      width: 100%;
-      max-width: 100%;
-      margin: 0;
-      scroll-snap-align: start;
+    .bluesky-carousel > .bluesky-embed {
+      display: block;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      overflow: hidden;
+    }
+
+    .bluesky-carousel .bluesky-embed iframe {
+      display: block;
+      width: 100% !important;
+      max-width: 100% !important;
     }
 
     #ecosystem-title {
@@ -260,7 +296,7 @@
 
     #figures {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 240px));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 20px;
       align-items: start;
       padding: 4px 2px 12px;
@@ -370,10 +406,10 @@
     #zano-footer {
       position: fixed;
       bottom: 0;
-      left: 160px;
+      left: 0;
       z-index: 1100;
       display: flex;
-      width: calc(100% - 160px);
+      width: 100%;
       align-items: center;
       justify-content: center;
       gap: 8px;
@@ -382,6 +418,12 @@
       color: var(--text-color);
       box-shadow: 0 -2px 8px var(--shadow-color);
       font-size: 0.85rem;
+      transition: left 0.3s ease, width 0.3s ease;
+    }
+
+    body.sidebar-open #zano-footer {
+      left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
     }
 
     #zano-address {
@@ -412,19 +454,19 @@
       color: var(--bg-color);
     }
 
+    @media (max-width: 900px) {
+      #figures {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+    }
+
     @media (max-width: 768px) {
+      :root {
+        --sidebar-width: 140px;
+      }
+
       #sidebar {
-        width: 140px;
         padding: 15px 10px;
-      }
-
-      #content {
-        margin-left: 140px;
-      }
-
-      #zano-footer {
-        left: 140px;
-        width: calc(100% - 140px);
       }
     }
 
@@ -445,8 +487,20 @@
         padding: 6px;
       }
 
+      /* On narrow screens, keep posts swipeable rather than squeezing them. */
       .bluesky-carousel {
+        display: grid;
+        grid-template-columns: none;
+        grid-auto-flow: column;
         grid-auto-columns: minmax(280px, 90%);
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .bluesky-carousel > .bluesky-embed {
+        scroll-snap-align: start;
       }
     }
   </style>
@@ -463,6 +517,13 @@
 
   <div id="mainContent">
     <button id="side-toggle" title="Toggle Light/Dark Mode" aria-label="Toggle light and dark mode">☀️</button>
+    <button
+      id="sidebar-toggle"
+      type="button"
+      aria-controls="sidebar"
+      aria-expanded="false"
+      aria-label="Open sidebar"
+    >☰ Menu</button>
 
     <aside id="sidebar">
       <input type="search" id="sidebar-search" placeholder="Search..." aria-label="Search" />
@@ -894,13 +955,21 @@
       initGlobe();
       updateThemeToggle();
 
-      const mainContent = document.getElementById("mainContent");
-      mainContent.style.opacity = "1";
-      mainContent.style.pointerEvents = "auto";
-
       document.getElementById("side-toggle").addEventListener("click", () => {
         document.body.classList.toggle("dark-mode");
         updateThemeToggle();
+      });
+
+      const sidebarToggle = document.getElementById("sidebar-toggle");
+
+      sidebarToggle.addEventListener("click", () => {
+        const isOpen = document.body.classList.toggle("sidebar-open");
+        sidebarToggle.setAttribute("aria-expanded", String(isOpen));
+        sidebarToggle.setAttribute(
+          "aria-label",
+          isOpen ? "Close sidebar" : "Open sidebar"
+        );
+        sidebarToggle.textContent = isOpen ? "× Close" : "☰ Menu";
       });
 
       loadFavorites();
