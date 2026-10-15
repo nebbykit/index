@@ -123,25 +123,26 @@
 
     #side-toggle {
       position: fixed;
-      top: 80%;
-      left: 0;
-      z-index: 1300;
-      padding: 10px 15px;
-      transform: translateY(-50%);
+      top: 20px;
+      right: 20px;
+      z-index: 1500;
+      display: flex;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
       border: 1px solid var(--text-color);
-      border-radius: 0 4px 4px 0;
+      border-radius: 8px;
       background: var(--accent-color);
       color: var(--bg-color);
-      font-family: "Ubuntu", Arial, sans-serif;
-      font-weight: bold;
+      font-size: 1.25rem;
       cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, transform 0.2s;
     }
 
-    #side-toggle:hover,
-    #backToTop:hover,
-    .category-btn:hover,
-    #sidebar-toggle:hover,
-    .page-button:hover {
+    #side-toggle:hover {
+      transform: scale(1.05);
       background: var(--text-color);
       color: var(--bg-color);
     }
@@ -213,6 +214,8 @@
     .category-btn:hover,
     .page-button:hover {
       transform: translateY(-2px);
+      background: var(--text-color);
+      color: var(--bg-color);
     }
 
     .page-button[aria-current="page"] {
@@ -433,6 +436,8 @@
 
     #backToTop:hover {
       transform: scale(1.1);
+      background: var(--text-color);
+      color: var(--bg-color);
     }
 
     #zano-footer {
@@ -539,6 +544,11 @@
         right: 16px;
         width: 50px;
         height: 50px;
+      }
+
+      #side-toggle {
+        top: 16px;
+        right: 16px;
       }
     }
   </style>
