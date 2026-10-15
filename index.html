@@ -13,7 +13,7 @@
       --surface-color: #ffe0c2;
       --accent-color: #c64f5d;
       --shadow-color: rgba(84, 43, 60, 0.18);
-      --sidebar-width: 160px;
+      --sidebar-width: 180px;
     }
 
     body.dark-mode {
@@ -36,7 +36,6 @@
 
     body {
       min-height: 100vh;
-      display: flex;
       position: relative;
       background: var(--bg-color);
       color: var(--text-color);
@@ -65,7 +64,6 @@
     #mainContent {
       position: relative;
       z-index: 1;
-      width: 100%;
       min-height: 100vh;
     }
 
@@ -136,12 +134,14 @@
       color: var(--bg-color);
       font-family: "Ubuntu", Arial, sans-serif;
       font-weight: bold;
+      cursor: pointer;
     }
 
     #side-toggle:hover,
     #backToTop:hover,
     .category-btn:hover,
-    #sidebar-toggle:hover {
+    #sidebar-toggle:hover,
+    .page-button:hover {
       background: var(--text-color);
       color: var(--bg-color);
     }
@@ -194,7 +194,8 @@
       width: 100%;
     }
 
-    .category-btn {
+    .category-btn,
+    .page-button {
       width: 100%;
       margin-bottom: 8px;
       padding: 10px;
@@ -206,10 +207,17 @@
       font-size: 0.9em;
       font-weight: bold;
       transition: transform 0.3s, background-color 0.3s, color 0.3s;
+      text-align: center;
     }
 
-    .category-btn:hover {
+    .category-btn:hover,
+    .page-button:hover {
       transform: translateY(-2px);
+    }
+
+    .page-button[aria-current="page"] {
+      background: var(--text-color);
+      color: var(--bg-color);
     }
 
     #favoritesList {
@@ -263,14 +271,24 @@
       margin-left: var(--sidebar-width);
     }
 
-    /* Desktop: each post occupies exactly half of the available carousel width. */
+    .page-section {
+      width: 100%;
+    }
+
+    .page-section[hidden] {
+      display: none !important;
+    }
+
+    .page-title {
+      margin-bottom: 16px;
+    }
+
     .bluesky-carousel {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 16px;
       align-items: start;
       width: 100%;
-      overflow: hidden;
       padding: 4px 2px 16px;
       margin-bottom: 24px;
     }
@@ -281,7 +299,6 @@
       max-width: 100% !important;
       min-width: 0 !important;
       margin: 0 !important;
-      overflow: hidden;
     }
 
     .bluesky-carousel .bluesky-embed iframe {
@@ -374,6 +391,20 @@
       cursor: pointer;
     }
 
+    .blog-placeholder {
+      max-width: 760px;
+      padding: 20px;
+      border: 1px solid var(--text-color);
+      border-radius: 12px;
+      background: var(--surface-color);
+      box-shadow: 0 4px 8px var(--shadow-color);
+      line-height: 1.6;
+    }
+
+    .blog-placeholder h2 {
+      margin-bottom: 8px;
+    }
+
     #backToTop {
       position: fixed;
       right: 30px;
@@ -392,6 +423,7 @@
       font-size: 2em;
       font-weight: bold;
       transition: opacity 0.3s, transform 0.3s, background-color 0.3s, color 0.3s;
+      cursor: pointer;
     }
 
     #backToTop.hidden {
@@ -471,6 +503,11 @@
     }
 
     @media (max-width: 600px) {
+      #content {
+        padding-right: 12px;
+        padding-left: 12px;
+      }
+
       #zano-footer {
         gap: 5px;
         padding: 8px 6px;
@@ -487,20 +524,21 @@
         padding: 6px;
       }
 
-      /* On narrow screens, keep posts swipeable rather than squeezing them. */
       .bluesky-carousel {
-        display: grid;
-        grid-template-columns: none;
-        grid-auto-flow: column;
-        grid-auto-columns: minmax(280px, 90%);
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        overscroll-behavior-x: contain;
-        -webkit-overflow-scrolling: touch;
+        grid-template-columns: minmax(0, 1fr);
+        overflow: visible;
       }
 
-      .bluesky-carousel > .bluesky-embed {
-        scroll-snap-align: start;
+      .bluesky-carousel > .bluesky-embed,
+      .bluesky-carousel .bluesky-embed iframe {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      #backToTop {
+        right: 16px;
+        width: 50px;
+        height: 50px;
       }
     }
   </style>
@@ -516,7 +554,8 @@
   <canvas id="globeBackground"></canvas>
 
   <div id="mainContent">
-    <button id="side-toggle" title="Toggle Light/Dark Mode" aria-label="Toggle light and dark mode">☀️</button>
+    <button id="side-toggle" type="button" title="Toggle Light/Dark Mode" aria-label="Toggle light and dark mode">☀️</button>
+
     <button
       id="sidebar-toggle"
       type="button"
@@ -526,7 +565,13 @@
     >☰ Menu</button>
 
     <aside id="sidebar">
-      <input type="search" id="sidebar-search" placeholder="Search..." aria-label="Search" />
+      <nav aria-label="Main menu">
+        <button class="page-button" type="button" data-page="home" aria-current="page">Home</button>
+        <button class="page-button" type="button" data-page="blog">Blog</button>
+        <button class="page-button" type="button" data-page="ecosystem">Ecosystem</button>
+      </nav>
+
+      <input type="search" id="sidebar-search" placeholder="Search ecosystem..." aria-label="Search ecosystem" />
       <h2>Favorites</h2>
       <div id="favoritesList"></div>
 
@@ -550,40 +595,52 @@
     </aside>
 
     <main id="content">
-      <div class="bluesky-carousel" aria-label="Bluesky posts">
-        <blockquote
-          class="bluesky-embed"
-          data-bluesky-uri="at://did:plc:roahe2pvx3wqoxtb4izqp6ey/app.bsky.feed.post/3mxvijaxxkc2v"
-          data-bluesky-cid="bafyreifbxp57zjt43vlrrseo62hme7xhfcznhbzauh43ioy22whosugdci"
-          data-bluesky-embed-color-mode="system"
-        >
-          <p lang="en">
-            <br><br>
-            <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijaxxkc2v?ref_src=embed">[image or embed]</a>
-          </p>
-          &mdash; Nebby [nsfw]
-          (<a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey?ref_src=embed">@nebbykit.bsky.social</a>)
-          <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijaxxkc2v?ref_src=embed">October 15, 2026 at 12:01 AM</a>
-        </blockquote>
+      <section id="home-page" class="page-section" aria-labelledby="home-title">
+        <h1 id="home-title" class="page-title">Home</h1>
 
-        <blockquote
-          class="bluesky-embed"
-          data-bluesky-uri="at://did:plc:roahe2pvx3wqoxtb4izqp6ey/app.bsky.feed.post/3mxvijswbi22v"
-          data-bluesky-cid="bafyreiar36mpjzrzvecgmdib3bzgbpm6mvs5fkbplerqr54dfp4nigv7hm"
-          data-bluesky-embed-color-mode="system"
-        >
-          <p lang="en">
-            <br><br>
-            <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijswbi22v?ref_src=embed">[image or embed]</a>
-          </p>
-          &mdash; Nebby [nsfw]
-          (<a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey?ref_src=embed">@nebbykit.bsky.social</a>)
-          <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijswbi22v?ref_src=embed">October 15, 2026 at 12:01 AM</a>
-        </blockquote>
-      </div>
+        <div class="bluesky-carousel" aria-label="Bluesky posts">
+          <blockquote
+            class="bluesky-embed"
+            data-bluesky-uri="at://did:plc:roahe2pvx3wqoxtb4izqp6ey/app.bsky.feed.post/3mxvijaxxkc2v"
+            data-bluesky-cid="bafyreifbxp57zjt43vlrrseo62hme7xhfcznhbzauh43ioy22whosugdci"
+            data-bluesky-embed-color-mode="system"
+          >
+            <p lang="en">
+              <br><br>
+              <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijaxxkc2v?ref_src=embed">[image or embed]</a>
+            </p>
+            &mdash; Nebby [nsfw]
+            (<a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey?ref_src=embed">@nebbykit.bsky.social</a>)
+            <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijaxxkc2v?ref_src=embed">October 15, 2026 at 12:01 AM</a>
+          </blockquote>
 
-      <section aria-labelledby="ecosystem-title">
-        <h2 id="ecosystem-title">Ecosystem</h2>
+          <blockquote
+            class="bluesky-embed"
+            data-bluesky-uri="at://did:plc:roahe2pvx3wqoxtb4izqp6ey/app.bsky.feed.post/3mxvijswbi22v"
+            data-bluesky-cid="bafyreiar36mpjzrzvecgmdib3bzgbpm6mvs5fkbplerqr54dfp4nigv7hm"
+            data-bluesky-embed-color-mode="system"
+          >
+            <p lang="en">
+              <br><br>
+              <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijswbi22v?ref_src=embed">[image or embed]</a>
+            </p>
+            &mdash; Nebby [nsfw]
+            (<a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey?ref_src=embed">@nebbykit.bsky.social</a>)
+            <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijswbi22v?ref_src=embed">October 15, 2026 at 12:01 AM</a>
+          </blockquote>
+        </div>
+      </section>
+
+      <section id="blog-page" class="page-section" aria-labelledby="blog-title" hidden>
+        <h1 id="blog-title" class="page-title">Blog</h1>
+        <article class="blog-placeholder">
+          <h2>Welcome to my blog</h2>
+          <p>Add your blog posts here. This section is separate from the Ecosystem page, while your Bluesky posts remain on Home.</p>
+        </article>
+      </section>
+
+      <section id="ecosystem-page" class="page-section" aria-labelledby="ecosystem-title" hidden>
+        <h1 id="ecosystem-title" class="page-title">Ecosystem</h1>
         <div id="figures"></div>
       </section>
     </main>
@@ -768,6 +825,26 @@
     const backBtn = document.getElementById("backToTop");
     let hideTimeout = null;
 
+    function showPage(pageName) {
+      document.querySelectorAll(".page-section").forEach(section => {
+        section.hidden = section.id !== `${pageName}-page`;
+      });
+
+      document.querySelectorAll(".page-button").forEach(button => {
+        if (button.dataset.page === pageName) {
+          button.setAttribute("aria-current", "page");
+        } else {
+          button.removeAttribute("aria-current");
+        }
+      });
+
+      const isEcosystem = pageName === "ecosystem";
+      document.getElementById("sidebar-search").hidden = !isEcosystem;
+      document.getElementById("categoriesContainer").hidden = !isEcosystem;
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
     function loadFavorites() {
       try {
         const saved = localStorage.getItem("favorites");
@@ -874,7 +951,6 @@
           if (event.target.closest("a, .figure-favorite")) {
             return;
           }
-
           figure.classList.toggle("show-stats");
         });
 
@@ -972,10 +1048,15 @@
         sidebarToggle.textContent = isOpen ? "× Close" : "☰ Menu";
       });
 
+      document.querySelectorAll(".page-button").forEach(button => {
+        button.addEventListener("click", () => showPage(button.dataset.page));
+      });
+
       loadFavorites();
       populateFigures();
       filterFigures("category", "All");
       updateFavoritesList();
+      showPage("home");
 
       document.getElementById("sidebar-search").addEventListener("input", event => {
         filterFigures("search", event.target.value);
