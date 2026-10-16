@@ -46,8 +46,7 @@
     button,
     a,
     figure,
-    input,
-    .stats {
+    input {
       cursor: pointer;
     }
 
@@ -316,9 +315,9 @@
 
     #figures {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 20px;
-      align-items: stretch;
+      align-items: start;
       padding: 4px 2px 12px;
     }
 
@@ -328,7 +327,7 @@
       min-width: 0;
       flex-direction: column;
       align-items: center;
-      align-self: stretch;
+      align-self: start;
       padding: 15px;
       border: 1px solid var(--text-color);
       border-radius: 12px;
@@ -352,8 +351,8 @@
 
     figure img {
       display: block;
-      width: min(100%, 120px);
-      aspect-ratio: 1 / 1;
+      width: 100%;
+      max-width: 120px;
       height: auto;
       margin-bottom: 10px;
       border-radius: 8px;
@@ -365,32 +364,13 @@
       transform: scale(1.05);
     }
 
-    .fig-details {
-      width: 100%;
-      min-width: 0;
-      text-align: center;
-    }
-
     figcaption {
+      width: 100%;
       margin-top: 8px;
       color: var(--text-color);
       font-size: 1.1em;
       overflow-wrap: anywhere;
       text-align: center;
-    }
-
-    .stats {
-      display: none;
-      margin-top: 6px;
-      color: var(--text-color);
-      font-size: 0.85em;
-      font-style: italic;
-      line-height: 1.4;
-      overflow-wrap: anywhere;
-    }
-
-    .show-stats .stats {
-      display: block;
     }
 
     .figure-favorite {
@@ -502,7 +482,7 @@
       }
 
       figure img {
-        width: min(100%, 110px);
+        max-width: 110px;
       }
 
       figcaption {
@@ -552,6 +532,7 @@
       }
 
       #figures {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 10px;
         padding-right: 0;
         padding-left: 0;
@@ -562,7 +543,7 @@
       }
 
       figure img {
-        width: min(100%, 96px);
+        max-width: 96px;
         margin-bottom: 6px;
       }
 
@@ -570,10 +551,6 @@
         margin-top: 4px;
         font-size: clamp(0.85rem, 3.5vw, 1rem);
         line-height: 1.25;
-      }
-
-      .stats {
-        font-size: 0.78rem;
       }
 
       .figure-favorite {
@@ -596,6 +573,7 @@
 
     @media (max-width: 360px) {
       #figures {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         gap: 8px;
       }
 
@@ -604,7 +582,7 @@
       }
 
       figure img {
-        width: min(100%, 78px);
+        max-width: 78px;
       }
 
       figcaption {
@@ -800,7 +778,307 @@
         href: "https://ergoplatform.org/en/",
         src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
         caption: "ERGO",
-        categoryLabel: "NA",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
+      },
+      {
+        href: "https://ergoplatform.org/en/",
+        src: "https://i.postimg.cc/fTLHp9GY/ergoplatform.jpg",
+        caption: "ERGO",
+        categoryLabel: "NA"
       }
     ];
 
@@ -921,13 +1199,6 @@
         figure.dataset.category = item.categoryLabel;
         figure.dataset.index = index;
 
-        figure.addEventListener("click", event => {
-          if (event.target.closest("a, .figure-favorite")) {
-            return;
-          }
-          figure.classList.toggle("show-stats");
-        });
-
         const favoriteButton = document.createElement("button");
         favoriteButton.className = "figure-favorite";
         favoriteButton.type = "button";
@@ -951,15 +1222,7 @@
         const caption = document.createElement("figcaption");
         caption.textContent = item.caption;
 
-        const stats = document.createElement("div");
-        stats.className = "stats";
-        stats.textContent = item.stats;
-
-        const details = document.createElement("div");
-        details.className = "fig-details";
-        details.append(caption, stats);
-
-        figure.append(favoriteButton, link, details);
+        figure.append(favoriteButton, link, caption);
         container.appendChild(figure);
       });
     }
@@ -970,7 +1233,6 @@
       document.querySelectorAll("#figures figure").forEach(figure => {
         const category = figure.dataset.category.toLowerCase();
         const caption = figure.querySelector("figcaption").textContent.toLowerCase();
-        const stats = figure.querySelector(".stats").textContent.toLowerCase();
 
         if (type === "category") {
           figure.style.display =
@@ -979,8 +1241,7 @@
           figure.style.display =
             !searchValue ||
             category.includes(searchValue) ||
-            caption.includes(searchValue) ||
-            stats.includes(searchValue)
+            caption.includes(searchValue)
               ? ""
               : "none";
         }
