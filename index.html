@@ -316,7 +316,7 @@
 
     #figures {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr);
       gap: 20px;
       align-items: stretch;
       padding: 4px 2px 12px;
@@ -405,20 +405,6 @@
       cursor: pointer;
     }
 
-    .blog-placeholder {
-      max-width: 760px;
-      padding: 20px;
-      border: 1px solid var(--text-color);
-      border-radius: 12px;
-      background: var(--surface-color);
-      box-shadow: 0 4px 8px var(--shadow-color);
-      line-height: 1.6;
-    }
-
-    .blog-placeholder h2 {
-      margin-bottom: 8px;
-    }
-
     #backToTop {
       position: fixed;
       right: 30px;
@@ -502,20 +488,6 @@
       color: var(--bg-color);
     }
 
-    @media (max-width: 1100px) {
-      #figures {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 16px;
-      }
-    }
-
-    @media (max-width: 900px) {
-      #figures {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 14px;
-      }
-    }
-
     @media (max-width: 768px) {
       :root {
         --sidebar-width: 140px;
@@ -523,11 +495,6 @@
 
       #sidebar {
         padding: 15px 10px;
-      }
-
-      #figures {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
       }
 
       figure {
@@ -585,7 +552,6 @@
       }
 
       #figures {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
         padding-right: 0;
         padding-left: 0;
@@ -671,7 +637,6 @@
     <aside id="sidebar">
       <nav aria-label="Main menu">
         <button class="page-button" type="button" data-page="home" aria-current="page">Gallery</button>
-        <button class="page-button" type="button" data-page="blog">Blog</button>
         <button class="page-button" type="button" data-page="ecosystem">Ecosystem</button>
       </nav>
 
@@ -733,14 +698,6 @@
             <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijswbi22v?ref_src=embed">October 15, 2026 at 12:01 AM</a>
           </blockquote>
         </div>
-      </section>
-
-      <section id="blog-page" class="page-section" aria-labelledby="blog-title" hidden>
-        <h1 id="blog-title" class="page-title"></h1>
-        <article class="blog-placeholder">
-          <h2>Welcome to my blog</h2>
-          <p></p>
-        </article>
       </section>
 
       <section id="ecosystem-page" class="page-section" aria-labelledby="ecosystem-title" hidden>
@@ -845,83 +802,6 @@
         caption: "Mangmi Air X",
         categoryLabel: "NA",
         stats: "Great-value PSP gaming with a Snapdragon 662, FHD screen, Hall joysticks, and a 5000mAh battery."
-      },
-      {
-        href: "https://jpfans.com/ps%20vita/search/mercari?searchType=keywords",
-        src: "https://i.postimg.cc/56Y84Svz/ps-vita.jpg",
-        caption: "PS VITA 1000",
-        categoryLabel: "NA",
-        stats: "The best PlayStation handheld of all time, complete with full touch AMOLED display."
-      },
-      {
-        href: "https://www.nintendo.com/us/switch/",
-        src: "https://placehold.co/160x160/ffe0c2/542b3c?text=Switch",
-        caption: "Nintendo Switch",
-        categoryLabel: "Gaming",
-        stats: "A versatile hybrid console for playing at home or on the go."
-      },
-      {
-        href: "https://www.playstation.com/",
-        src: "https://placehold.co/160x160/14213d/ffffff?text=PlayStation",
-        caption: "PlayStation",
-        categoryLabel: "Gaming",
-        stats: "A home console ecosystem with a wide range of games and accessories."
-      },
-      {
-        href: "https://www.xbox.com/",
-        src: "https://placehold.co/160x160/1b5e20/ffffff?text=Xbox",
-        caption: "Xbox",
-        categoryLabel: "Gaming",
-        stats: "A gaming platform with console, PC, and subscription options."
-      },
-      {
-        href: "https://www.steamdeck.com/",
-        src: "https://placehold.co/160x160/263238/ffffff?text=Steam+Deck",
-        caption: "Steam Deck",
-        categoryLabel: "Gaming",
-        stats: "A handheld PC designed to bring a large library of computer games on the go."
-      },
-      {
-        href: "https://www.analogue.co/pocket",
-        src: "https://placehold.co/160x160/eeeeee/222222?text=Analogue",
-        caption: "Analogue Pocket",
-        categoryLabel: "Gaming",
-        stats: "A modern handheld built for playing classic portable game cartridges."
-      },
-      {
-        href: "https://www.raspberrypi.com/",
-        src: "https://placehold.co/160x160/c62828/ffffff?text=Raspberry+Pi",
-        caption: "Raspberry Pi",
-        categoryLabel: "Technology",
-        stats: "A compact computer often used for learning, tinkering, and small projects."
-      },
-      {
-        href: "https://www.arduino.cc/",
-        src: "https://placehold.co/160x160/00897b/ffffff?text=Arduino",
-        caption: "Arduino",
-        categoryLabel: "Technology",
-        stats: "A popular platform for experimenting with electronics and interactive projects."
-      },
-      {
-        href: "https://www.lego.com/",
-        src: "https://placehold.co/160x160/f9a825/542b3c?text=LEGO",
-        caption: "LEGO",
-        categoryLabel: "Hobbies",
-        stats: "Creative building sets for designing, collecting, and displaying."
-      },
-      {
-        href: "https://www.ifixit.com/",
-        src: "https://placehold.co/160x160/1565c0/ffffff?text=Repair",
-        caption: "Repair Projects",
-        categoryLabel: "Hobbies",
-        stats: "A reminder that many devices can be repaired, maintained, or upgraded."
-      },
-      {
-        href: "https://www.wikipedia.org/",
-        src: "https://placehold.co/160x160/607d8b/ffffff?text=Explore",
-        caption: "Curiosity",
-        categoryLabel: "Hobbies",
-        stats: "There is always something new to learn, explore, or add to a project."
       }
     ];
 
