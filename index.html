@@ -265,7 +265,7 @@
     #content {
       min-height: 100vh;
       margin-left: 0;
-      padding: 80px 20px 90px;
+      padding: 80px 20px 30px;
       transition: margin-left 0.3s ease;
     }
 
@@ -388,7 +388,7 @@
     #backToTop {
       position: fixed;
       right: 30px;
-      bottom: 70px;
+      bottom: 30px;
       z-index: 1200;
       display: flex;
       width: 60px;
@@ -413,57 +413,6 @@
 
     #backToTop:hover {
       transform: scale(1.1);
-      background: var(--text-color);
-      color: var(--bg-color);
-    }
-
-    #zano-footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      z-index: 1100;
-      display: flex;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 16px;
-      background: var(--surface-color);
-      color: var(--text-color);
-      box-shadow: 0 -2px 8px var(--shadow-color);
-      font-size: 0.85rem;
-      transition: left 0.3s ease, width 0.3s ease;
-    }
-
-    body.sidebar-open #zano-footer {
-      left: var(--sidebar-width);
-      width: calc(100% - var(--sidebar-width));
-    }
-
-    #zano-address {
-      width: min(700px, 70%);
-      min-width: 0;
-      padding: 6px 8px;
-      border: 1px solid var(--text-color);
-      border-radius: 4px;
-      background: var(--bg-color);
-      color: var(--text-color);
-      font: inherit;
-      cursor: text;
-    }
-
-    #copy-zano {
-      flex: none;
-      padding: 6px 10px;
-      border: 1px solid var(--text-color);
-      border-radius: 4px;
-      background: var(--accent-color);
-      color: var(--bg-color);
-      font: inherit;
-      cursor: pointer;
-    }
-
-    #copy-zano:hover {
       background: var(--text-color);
       color: var(--bg-color);
     }
@@ -493,32 +442,11 @@
 
     @media (max-width: 600px) {
       #content {
-        padding: 80px 12px 90px;
+        padding: 80px 12px 30px;
       }
 
       body.sidebar-open #content {
         margin-left: 0;
-      }
-
-      #zano-footer {
-        gap: 5px;
-        padding: 8px 6px;
-        font-size: 0.7rem;
-      }
-
-      body.sidebar-open #zano-footer {
-        left: 0;
-        width: 100%;
-      }
-
-      #zano-address {
-        width: auto;
-        flex: 1;
-        font-size: 0.65rem;
-      }
-
-      #copy-zano {
-        padding: 6px;
       }
 
       .bluesky-carousel {
@@ -563,6 +491,7 @@
 
       #backToTop {
         right: 16px;
+        bottom: 16px;
         width: 50px;
         height: 50px;
       }
@@ -688,19 +617,6 @@
     </main>
 
     <button id="backToTop" class="hidden" aria-label="Back to top">↑</button>
-
-    <div id="zano-footer">
-      <span>ZANO:</span>
-      <input
-        id="zano-address"
-        type="text"
-        value="ZxBvYdqwc7w87RQsSSLJVJ7oRjSHh8USiEtQxgQCiWppWLvH8BusRu3hPM4dCLhZDtfhBiqN3ug4oQGpi31UZ9hc1MPfayXgb"
-        readonly
-        aria-label="ZANO address"
-        onclick="this.select()"
-      />
-      <button id="copy-zano" type="button">Copy</button>
-    </div>
   </div>
 
   <script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
@@ -1067,25 +983,6 @@
         button.addEventListener("click", () => {
           filterFigures("category", button.dataset.filter);
         });
-      });
-
-      document.getElementById("copy-zano").addEventListener("click", async () => {
-        const addressInput = document.getElementById("zano-address");
-        const copyButton = document.getElementById("copy-zano");
-
-        try {
-          await navigator.clipboard.writeText(addressInput.value);
-          copyButton.textContent = "Copied!";
-        } catch {
-          addressInput.select();
-          addressInput.setSelectionRange(0, addressInput.value.length);
-          document.execCommand("copy");
-          copyButton.textContent = "Copied!";
-        }
-
-        setTimeout(() => {
-          copyButton.textContent = "Copy";
-        }, 1500);
       });
 
       window.addEventListener("scroll", () => {
