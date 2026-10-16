@@ -756,13 +756,13 @@
       {
         href: "https://www.redbubble.com/i/mug/Party-Guru-by-dwnlives/169504252/7yqg",
         src: "https://i.postimg.cc/bdHFFNzM/gurumugparty.png",
-        caption: "Party Guru Coffee Mug",
+        caption: "Party Guru Mug",
         categoryLabel: "NA"
       },
       {
         href: "https://www.redbubble.com/i/mug/Jungle-Guru-by-dwnlives/169503332/7yqg",
         src: "https://i.postimg.cc/Sj7ttNS0/gurumugjungle.png",
-        caption: "Jungle Guru Coffee Mug",
+        caption: "Jungle Guru Mug",
         categoryLabel: "NA"
       },
       {
@@ -798,8 +798,21 @@
     ];
 
     let favorites = [];
+    let shuffledFigures = [];
     const backBtn = document.getElementById("backToTop");
     let hideTimeout = null;
+
+    function shuffleArray(array) {
+      const shuffled = [...array];
+
+      // Fisher–Yates shuffle.
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+
+      return shuffled;
+    }
 
     function showPage(pageName) {
       document.querySelectorAll(".page-section").forEach(section => {
@@ -909,19 +922,21 @@
       const container = document.getElementById("figures");
       container.innerHTML = "";
 
-      figures.forEach((item, index) => {
+      shuffledFigures.forEach(({ item, index }) => {
         const figure = document.createElement("figure");
         figure.dataset.category = item.categoryLabel;
         figure.dataset.index = index;
+
+        const isFavorite = favorites.includes(index);
 
         const favoriteButton = document.createElement("button");
         favoriteButton.className = "figure-favorite";
         favoriteButton.type = "button";
         favoriteButton.dataset.index = index;
-        favoriteButton.textContent = favorites.includes(index) ? "★" : "☆";
+        favoriteButton.textContent = isFavorite ? "★" : "☆";
         favoriteButton.setAttribute(
           "aria-label",
-          favorites.includes(index) ? "Remove from favorites" : "Add to favorites"
+          isFavorite ? "Remove from favorites" : "Add to favorites"
         );
 
         const link = document.createElement("a");
@@ -1003,6 +1018,12 @@
       });
 
       loadFavorites();
+
+      // Randomize every figure once per page load, with no exclusions.
+      shuffledFigures = shuffleArray(
+        figures.map((item, index) => ({ item, index }))
+      );
+
       populateFigures();
       filterFigures("category", "All");
       updateFavoritesList();
