@@ -285,28 +285,18 @@
       margin-bottom: 16px;
     }
 
-    .bluesky-carousel {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      align-items: start;
+    .youtube-embed {
+      width: min(100%, 800px);
+      aspect-ratio: 16 / 9;
+      margin: 0 auto 24px;
+    }
+
+    .youtube-embed iframe {
+      display: block;
       width: 100%;
-      padding: 4px 2px 16px;
-      margin-bottom: 24px;
-    }
-
-    .bluesky-carousel > .bluesky-embed {
-      display: block;
-      width: 100% !important;
-      max-width: 100% !important;
-      min-width: 0 !important;
-      margin: 0 !important;
-    }
-
-    .bluesky-carousel .bluesky-embed iframe {
-      display: block;
-      width: 100% !important;
-      max-width: 100% !important;
+      height: 100%;
+      border: 0;
+      border-radius: 12px;
     }
 
     #ecosystem-title {
@@ -449,17 +439,6 @@
         margin-left: 0;
       }
 
-      .bluesky-carousel {
-        grid-template-columns: minmax(0, 1fr);
-        overflow: visible;
-      }
-
-      .bluesky-carousel > .bluesky-embed,
-      .bluesky-carousel .bluesky-embed iframe {
-        width: 100% !important;
-        max-width: 100% !important;
-      }
-
       #figures {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 10px;
@@ -577,36 +556,14 @@
       <section id="home-page" class="page-section" aria-labelledby="home-title">
         <h1 id="home-title" class="page-title"></h1>
 
-        <div class="bluesky-carousel" aria-label="Bluesky posts">
-          <blockquote
-            class="bluesky-embed"
-            data-bluesky-uri="at://did:plc:roahe2pvx3wqoxtb4izqp6ey/app.bsky.feed.post/3mxvijaxxkc2v"
-            data-bluesky-cid="bafyreifbxp57zjt43vlrrseo62hme7xhfcznhbzauh43ioy22whosugdci"
-            data-bluesky-embed-color-mode="system"
-          >
-            <p lang="en">
-              <br><br>
-              <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijaxxkc2v?ref_src=embed">[image or embed]</a>
-            </p>
-            &mdash; nebbykit
-            (<a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey?ref_src=embed">@nebbykit.bsky.social</a>)
-            <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijaxxkc2v?ref_src=embed">October 15, 2026 at 12:01 AM</a>
-          </blockquote>
-
-          <blockquote
-            class="bluesky-embed"
-            data-bluesky-uri="at://did:plc:roahe2pvx3wqoxtb4izqp6ey/app.bsky.feed.post/3mxvijswbi22v"
-            data-bluesky-cid="bafyreiar36mpjzrzvecgmdib3bzgbpm6mvs5fkbplerqr54dfp4nigv7hm"
-            data-bluesky-embed-color-mode="system"
-          >
-            <p lang="en">
-              <br><br>
-              <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijswbi22v?ref_src=embed">[image or embed]</a>
-            </p>
-            &mdash; nebbykit
-            (<a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey?ref_src=embed">@nebbykit.bsky.social</a>)
-            <a href="https://bsky.app/profile/did:plc:roahe2pvx3wqoxtb4izqp6ey/post/3mxvijswbi22v?ref_src=embed">October 15, 2026 at 12:01 AM</a>
-          </blockquote>
+        <div class="youtube-embed">
+          <iframe
+            src="https://www.youtube.com/embed/ojpjTIh6T9g?si=GWbUwojREOSeVLwy"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
         </div>
       </section>
 
@@ -619,7 +576,6 @@
     <button id="backToTop" class="hidden" aria-label="Back to top">↑</button>
   </div>
 
-  <script async src="https://embed.bsky.app/static/embed.js" charset="utf-8"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 
   <script>
