@@ -285,18 +285,66 @@
       margin-bottom: 16px;
     }
 
-    .youtube-embed {
-      width: min(100%, 800px);
-      aspect-ratio: 16 / 9;
-      margin: 0 auto 24px;
+    .video-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+      gap: 20px;
+      width: min(100%, 1200px);
+      margin: 0 auto;
     }
 
-    .youtube-embed iframe {
+    .youtube-embed {
+      min-width: 0;
+    }
+
+    .youtube-embed iframe,
+    .youtube-placeholder {
       display: block;
       width: 100%;
-      height: 100%;
+      aspect-ratio: 16 / 9;
       border: 0;
       border-radius: 12px;
+    }
+
+    .youtube-placeholder {
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+      background: #222 center / cover no-repeat;
+      color: white;
+      cursor: pointer;
+    }
+
+    .youtube-placeholder::before {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.2);
+      content: "";
+    }
+
+    .youtube-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      display: grid;
+      width: 64px;
+      height: 46px;
+      place-items: center;
+      border-radius: 12px;
+      background: #f00;
+      color: white;
+      font-size: 24px;
+      transform: translate(-50%, -50%);
+    }
+
+    .youtube-placeholder:hover .youtube-play {
+      background: #c00;
+    }
+
+    .youtube-placeholder:focus-visible {
+      outline: 3px solid var(--text-color);
+      outline-offset: 3px;
     }
 
     #ecosystem-title {
@@ -439,6 +487,11 @@
         margin-left: 0;
       }
 
+      .video-gallery {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
       #figures {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
         gap: 10px;
@@ -555,26 +608,7 @@
     <main id="content">
       <section id="home-page" class="page-section" aria-labelledby="home-title">
         <h1 id="home-title" class="page-title"></h1>
-
-<div class="youtube-embed">
-  <iframe
-    src="https://www.youtube.com/embed/ojpjTIh6T9g?si=GWbUwojREOSeVLwy"
-    title="YouTube video player"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    referrerpolicy="strict-origin-when-cross-origin"
-    allowfullscreen>
-  </iframe>
-</div>
-
-<div class="youtube-embed">
-  <iframe
-    src="https://www.youtube.com/embed/H6_702z-5iY?si=nnsppSrz9pVWEisV"
-    title="YouTube video player"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    referrerpolicy="strict-origin-when-cross-origin"
-    allowfullscreen>
-  </iframe>
-</div>
+        <div id="videoGallery" class="video-gallery" aria-label="Videos"></div>
       </section>
 
       <section id="ecosystem-page" class="page-section" aria-labelledby="ecosystem-title" hidden>
@@ -656,6 +690,90 @@
       }
 
       animate();
+    }
+
+    const videoLinks = [
+      "https://youtu.be/FbvhZiTngdw?si=HxovUfDd76iKj1zc",
+      "https://youtu.be/oT0PKx5Q8f4?si=GQz5eMeYelhSIPPD",
+      "https://youtu.be/iq2bvE8YHpk?si=ld367kXajTG94URp",
+      "https://youtu.be/KZmP8guC5yg?si=Jt_ehngLasHsw-Of",
+      "https://youtu.be/ldd6Xa1XfK8?si=IQZdkrWqY1BSpZmH",
+      "https://youtu.be/_DWZaQyRIIo?si=sdsLomXMD75eL19v",
+      "https://youtu.be/D9VE_gZRBUg?si=lHzaX3sSQJHEr4Mv",
+      "https://youtu.be/6-iR-CgjOWI?si=44vWM_s_r1N46REj",
+      "https://youtu.be/7DmV41thChI?si=juC5kSqcX__J85xl"
+    ];
+
+    function getYouTubeId(link) {
+      try {
+        const url = new URL(link);
+        let id = "";
+
+        if (url.hostname === "youtu.be" || url.hostname.endsWith(".youtu.be")) {
+          id = url.pathname.split("/").filter(Boolean)[0] || "";
+        } else if (
+          url.hostname === "youtube.com" ||
+          url.hostname.endsWith(".youtube.com")
+        ) {
+          if (url.pathname === "/watch") {
+            id = url.searchParams.get("v") || "";
+          } else {
+            id = url.pathname.match(/^\/(?:embed|shorts)\/([^/?]+)/)?.[1] || "";
+          }
+        }
+
+        return /^[\w-]{11}$/.test(id) ? id : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function renderVideos() {
+      const gallery = document.getElementById("videoGallery");
+      if (!gallery) return;
+
+      gallery.replaceChildren();
+
+      videoLinks.forEach(link => {
+        const videoId = getYouTubeId(link);
+
+        if (!videoId) {
+          console.warn("Skipping invalid YouTube link:", link);
+          return;
+        }
+
+        const card = document.createElement("div");
+        card.className = "youtube-embed";
+
+        const placeholder = document.createElement("button");
+        placeholder.className = "youtube-placeholder";
+        placeholder.type = "button";
+        placeholder.style.backgroundImage =
+          `url("https://i.ytimg.com/vi/${videoId}/hqdefault.jpg")`;
+        placeholder.setAttribute("aria-label", "Play YouTube video");
+
+        const playIcon = document.createElement("span");
+        playIcon.className = "youtube-play";
+        playIcon.setAttribute("aria-hidden", "true");
+        playIcon.textContent = "▶";
+        placeholder.appendChild(playIcon);
+
+        placeholder.addEventListener("click", () => {
+          const iframe = document.createElement("iframe");
+          iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+          iframe.title = "YouTube video player";
+          iframe.loading = "lazy";
+          iframe.referrerPolicy = "strict-origin-when-cross-origin";
+          iframe.allow =
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+          iframe.allowFullscreen = true;
+
+          card.replaceChildren(iframe);
+        }, { once: true });
+
+        card.appendChild(placeholder);
+        gallery.appendChild(card);
+      });
     }
 
     const figures = [
@@ -777,7 +895,6 @@
     function shuffleArray(array) {
       const shuffled = [...array];
 
-      // Fisher–Yates shuffle.
       for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -919,6 +1036,7 @@
         const image = document.createElement("img");
         image.src = item.src;
         image.alt = item.caption;
+        image.loading = "lazy";
         link.appendChild(image);
 
         const caption = document.createElement("figcaption");
@@ -967,6 +1085,7 @@
       document.body.classList.add("dark-mode");
       initGlobe();
       updateThemeToggle();
+      renderVideos();
 
       document.getElementById("side-toggle").addEventListener("click", () => {
         document.body.classList.toggle("dark-mode");
@@ -991,7 +1110,6 @@
 
       loadFavorites();
 
-      // Randomize every figure once per page load, with no exclusions.
       shuffledFigures = shuffleArray(
         figures.map((item, index) => ({ item, index }))
       );
